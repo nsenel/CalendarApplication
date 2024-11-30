@@ -5,7 +5,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { environment } from 'src/environment/environment';
+import { environment } from 'src/environments/environment';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -86,7 +86,6 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     NotificationService,
-    TenantService,
     {
       provide: ITenantService,
       useClass: environment.useMockService ? TenantMockService : TenantService

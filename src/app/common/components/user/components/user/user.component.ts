@@ -18,7 +18,6 @@ export class UserComponent {
   }
 
   isRegisterAllowed():boolean {
-    console.log("this.userService.isUserRegisterRestricted();",this.userService.isUserRegisterRestricted())
     return !this.userService.isUserRegisterRestricted();
   }
 
