@@ -1,0 +1,94 @@
+{
+    "HEADER": {
+        "HOME": "Startseite",
+        "CALENDAR": "Kalender",
+        "LOGIN": "Anmelden",
+        "LOGIN_DIALOG": {
+            "TITLE": "Benutzeranmeldung",
+            "FORM": {
+                "USERNAME": "Benutzername",
+                "USERNAME_ERR": "Name ist erforderlich.",
+                "PASSWORD": "Passwort",
+                "PASSWORD_ERR": "Passwort ist erforderlich."
+            }
+        },
+        "USER_DIALOG": {
+            "SETTINGS": "Einstellungen",
+            "LOGOUT": "Abmelden"
+        }
+    },
+    "CALENDAR": {
+        "SELECT_CALENDAR": "Ausgewählter Kalender: {{ calendarName }}",
+        "SELECT_VIEW_TYPE": "Ansichtstyp: {{ viewType }}",
+        "SELECT_VIEW_TYPE_OPTIONS": {
+            "DAY": "Tag",
+            "WORKDAYS": "Arbeitstage",
+            "WEEK": "Woche",
+            "MONTH": "Monat"
+        },
+        "EMPTY_CALENDAR_LIST": "Sie haben keinen Zugriff auf einen Kalender. Bitte wenden Sie sich an Ihren Administrator."
+    },
+    "SETTINGS": {
+        "TITLE": "Einstellungen",
+        "EDIT": "Bearbeiten",
+        "SAVE": "Speichern",
+        "CANCEL": "Abbrechen",
+        "CONFIRM": "Bestätigen",
+        "USER": {
+            "FORM": {
+                "TITLE": "Benutzereinstellungen",
+                "INFO": {
+                    "EMAIL": "E-Mail-Adresse",
+                    "EMAIL_PLACEHOLDER": "Geben Sie Ihre E-Mail-Adresse ein",
+                    "EMAIL_ERR": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+                    "USERNAME": "Benutzername",
+                    "USERNAME_PLACEHOLDER": "Geben Sie Ihren Benutzernamen ein",
+                    "USERNAME_ERR": "Benutzername ist erforderlich."
+                },
+                "PASS": {
+                    "CHANGE_PASS_TITLE": "Passwort ändern",
+                    "CURRENT_PASS": "Aktuelles Passwort",
+                    "CURRENT_PASS_PLACEHOLDER": "Geben Sie Ihr aktuelles Passwort ein",
+                    "CURRENT_PASS_ERR": "Aktuelles Passwort ist erforderlich.",
+                    "NEW_PASS": "Neues Passwort",
+                    "NEW_PASS_PLACEHOLDER": "Geben Sie Ihr neues Passwort ein",
+                    "NEW_PASS_ERR": "Neues Passwort ist erforderlich.",
+                    "REPEAT_PASS": "Passwort wiederholen",
+                    "REPEAT_PASS_PLACEHOLDER": "Wiederholen Sie Ihr neues Passwort",
+                    "REPEAT_PASS_ERR": "Passwortwiederholung ist erforderlich.",
+                    "REPEAT_PASS_NOT_MATCH_ERR": "Passwortwiederholung stimmt nicht mit dem neuen Passwort überein."
+                }
+            }
+        },
+        "CALENDAR": {
+            "TITLE": "Kalendereinstellungen",
+            "SELECT_CALENDAR_OWNER": "Kalenderbesitzer: {{ calendarName }}",
+            "CALENDAR_TITLE": "Kalendertitel",
+            "CALENDAR_TITLE_ERR": "Titel ist erforderlich.",
+            "CALENDAR_TITLE_PLACEHOLDER": "Geben Sie den Kalendertitel ein",
+            "APPOINTMENT_REGISTERED": "Termine nur für registrierte Benutzer verfügbar",
+            "APPOINTMENT_REGISTERED_DATA_TIP": "Wenn deaktiviert, kann jeder einen Termin anfragen",
+            "START_TIME": "Buchbare Zeit beginnt um",
+            "END_TIME": "Buchbare Zeit endet um",
+            "TIME_BETWEEN": "Zeit zwischen Kalenderslots (in Minuten)",
+            "APPLY_BREAK": "Mittagspause anwenden",
+            "START_LUNCH": "Mittagszeit beginnt um",
+            "END_LUNCH": "Mittagszeit endet um",
+            "WEEKDAYS": "Buchbare Wochentage",
+            "NO_CALENDAR": "Sie müssen zuerst Ihren eigenen Kalender haben. Bitte erstellen Sie einen Kalender in den Verwaltungseinstellungen, der Ihnen gehört. (Kontaktieren Sie Ihren Administrator, wenn Sie keinen Zugriff haben)"
+        },
+        "MANAGEMENT": {
+            "TITLE": "Verwaltungseinstellungen",
+            "RESTRICTED_REGISTER": "Registrierung nur durch die Verwaltung möglich",
+            "RESTRICTED_REGISTER_DATA_TIP": "Wenn deaktiviert, kann sich jeder als regulärer Benutzer registrieren",
+            "CREATE_CALENDAR": "Neuen Kalender erstellen",
+            "CALENDAR_OWNER": "Besitzer-ID: {{ calendarID }}",
+            "OWNER": "Besitzer",
+            "DELETE": "Löschen",
+            "DELETE_MESSAGE": "Sind Sie sicher, dass Sie diesen Kalender löschen möchten?",
+            "CREATE": "Erstellen",
+            "CREATE_MESSAGE": "Sind Sie sicher, dass Sie einen neuen Kalender erstellen möchten?",
+            "NO_CALENDAR": "Keine Kalender gefunden. Bitte erstellen Sie einen Kalender."
+        }
+    }
+}

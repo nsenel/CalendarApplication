@@ -1,0 +1,6 @@
+<app-header [isDarkMode]="isDarkMode" (darkModeChange)="onDarkModeChange($event)"></app-header>
+<div class="main-content pt-5">
+  <router-outlet></router-outlet>
+</div>
+<app-footer></app-footer>
+<app-notification></app-notification>

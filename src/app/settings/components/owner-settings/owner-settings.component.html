@@ -1,0 +1,86 @@
+<div class="mb-8">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-semibold">{{"SETTINGS.MANAGEMENT.TITLE" | translate}}</h2>
+
+    <div>
+      <button *ngIf="isEditing" class="btn btn-outline btn-secondary mr-2" (click)="cancelEdit()">
+        {{"SETTINGS.CANCEL" | translate}}
+      </button>
+      <button *ngIf="isEditing" class="btn btn-outline btn-primary"
+        (click)="saveSettings()">
+        {{"SETTINGS.SAVE" | translate}}
+      </button>
+      <button *ngIf="!isEditing" class="btn btn-outline btn-primary" (click)="toggleEdit()">
+        {{"SETTINGS.EDIT" | translate}}
+      </button>
+    </div>
+  </div>
+
+  
+
+  
+
+  <div class="flex justify-between items-center mb-4">
+    <label class="label">
+      <div class="tooltip" [attr.data-tip]="'SETTINGS.MANAGEMENT.RESTRICTED_REGISTER_DATA_TIP' | translate">
+        <span class="label-text">{{ "SETTINGS.MANAGEMENT.RESTRICTED_REGISTER" | translate }}</span>
+      </div>
+    </label>
+    <div class="flex grow items-center" [formGroup]="ownerSettingsForm">
+      <input type="checkbox" class="checkbox checkbox-primary mr-2" formControlName="restrictedUserRegistiration" />
+    </div>
+
+    <button (click)="setModalType(ModalTypes.CREATE)" class="btn btn-outline btn-primary">
+      {{"SETTINGS.MANAGEMENT.CREATE_CALENDAR" | translate}}
+    </button>
+  </div>
+
+  <div *ngIf="calendars.length > 0 else noCalendarsFound">
+    <div class="grid gap-4">
+      <div *ngFor="let calendar of calendars" class="p-4 bg-base-100 rounded-lg shadow-md">
+        <div class="flex justify-between items-center">
+          <!-- Calendar Information -->
+          <div class="flex-1">
+            <h3 class="text-lg font-medium">{{ calendar.title }}</h3>
+            <p class="text-sm text-gray-500">{{ "SETTINGS.MANAGEMENT.CALENDAR_OWNER" | translate:{
+              calendarID: calendar.id } }}</p>
+          </div>
+
+          <!-- Calendar Actions -->
+          <div class="flex items-center justify-between space-x-4">
+            <!-- Owner selection -->
+            <label class="font-medium">{{"SETTINGS.MANAGEMENT.OWNER" | translate}}:</label>
+            <select [(ngModel)]="calendar.calendarOwnerID" (change)="onOwnerChange($event, calendar.id)"
+              class="select select-bordered select-sm">
+              <option *ngFor="let user of users" [value]="user.id">
+                {{ user.username }}
+              </option>
+            </select>
+
+            <button class="btn btn-error btn-sm" (click)="setModalType(ModalTypes.DELETE, calendar.id)">
+              {{"SETTINGS.MANAGEMENT.DELETE" | translate}}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noCalendarsFound>
+    <div class="card bg-base-300 rounded-box grid h-20 place-items-center">
+      {{"SETTINGS.MANAGEMENT.NO_CALENDAR" | translate}}
+    </div>
+  </ng-template>
+</div>
+
+<div *ngIf="modalMessage" class="fixed inset-0 flex items-center justify-center z-50">
+  <div class="fixed inset-0 bg-gray-800 opacity-60"></div>
+  <div class="modal-box">
+    <h3 class="text-lg font-bold">{{modalMessage.title}}</h3>
+    <p class="py-4">{{modalMessage.info}}</p>
+    <div class="modal-action">
+      <label (click)="modalMessage = undefined" class="btn">{{"SETTINGS.CANCEL" | translate}}</label>
+      <label (click)="modalMessage.confirm()" class="btn">{{"SETTINGS.CONFIRM" | translate}}</label>
+    </div>
+  </div>
+</div>

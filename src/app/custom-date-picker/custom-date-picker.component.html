@@ -1,0 +1,69 @@
+<div class="relative">
+  <div class="flex flex-col justify-center gap-1 mt-1 items-center">
+    <div class="flex" #calendarDiv>
+      <button *ngIf="isMonthButtonEnabled()" (click)="prevMonth()"
+        class="p-1 text-primary rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">
+        &lt;&lt;&lt;
+      </button>
+      <button *ngIf="isWeekButtonEnabled()" (click)="prevWeek()"
+        class="p-1 text-primary rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">
+        &lt;&lt;
+      </button>
+      <button *ngIf="isDayButtonEnabled()" (click)="prevDay()"
+        class="p-1 text-primary rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">
+        &lt;
+      </button>
+      <input
+  type="text"
+  [ngClass]="isShortInputText() ? 'w-40' : 'w-80'"
+  class="p-2 pl-3 pr-3 block border border-primary rounded-lg shadow-sm focus:ring-primary focus:border-primary sm:text-sm bg-base-100 overflow-hidden text-ellipsis text-center leading-normal"
+  
+  [value]="formattedDate"
+  readonly
+  (click)="toggleCalendar()" 
+/>
+      <button *ngIf="isDayButtonEnabled()" (click)="nextDay()"
+        class="p-1 text-primary rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">
+        &gt;
+      </button>
+      <button *ngIf="isWeekButtonEnabled()" (click)="nextWeek()"
+        class="p-1 text-primary rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">
+        &gt;&gt;
+      </button>
+      <button *ngIf="isMonthButtonEnabled()" (click)="nextMonth()"
+        class="p-1 text-primary rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">
+        &gt;&gt;&gt;
+      </button>
+    </div>
+    <div *ngIf="showCalendar"
+      class="absolute p-4 bg-base-100 border border-primary rounded-lg shadow-lg w-auto top-full mt-1">
+
+      <!-- Centered calendar header -->
+      <div class="calendar-header flex justify-center items-center mb-4">
+        <span class="font-semibold text-center">{{ selectedDate.setLocale(currentLocale).toFormat('MMMM yyyy') }}</span>
+      </div>
+
+      <!-- Display the weeks -->
+      <div *ngFor="let week of weeks" [class.bg-primary]="isInSelectedWeek(week)" class="rounded-lg transition">
+        <div class="calendar-grid grid grid-cols-7 gap-1 text-center">
+          <div
+            class="calendar-cell p-2 cursor-pointer rounded-full hover:bg-accent hover:text-white transition flex items-center justify-center"
+            *ngFor="let date of week" (click)="selectDate(date)" [ngClass]="{
+              'bg-primary text-white': isSelectedDate(date) || (isInSelectedWeek(week)),
+              'font-bold': isToday(date) && !isSelectedDate(date),
+              'text-gray-400': !isInCurrentMonth(date)
+            }">
+            {{ date.day }}
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-end mt-4">
+        <button (click)="selectToday()"
+          class="btn btn-outline btn-primary btn-sm">
+          {{buttonTitle}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

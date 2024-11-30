@@ -1,0 +1,52 @@
+<div class="relative" #pickerContainer>
+  <input
+    type="text"
+    class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm sm:text-sm"
+    [ngClass]="{ 'bg-gray-200 cursor-not-allowed opacity-50': disabled }"
+    [value]="formattedTime"
+    readonly
+    (click)="toggleClock()"
+    [disabled]="disabled"
+  />
+  <div *ngIf="showClock" class="absolute z-10 p-4 bg-white border rounded shadow-lg w-64">
+    
+    <div class="flex items-center justify-center">
+      <div *ngIf="hourEnabled" class="select-container">
+        <label class="block text-sm font-medium text-gray-700 text-center mb-2">Hours</label>
+        <div #hourScroll class="select-scrollable">
+          <ul class="list-none p-0 m-0">
+            <li
+              *ngFor="let hour of hours"
+              (click)="setHour(hour)"
+              [class.selected]="hour === selectedHour"
+              class="select-option"
+              [ngClass]="{ 'cursor-not-allowed opacity-50': disabled }"
+            >
+              {{ hour }}
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div *ngIf="hourEnabled && minuteEnabled" class="mx-2">:</div>
+      <div *ngIf="minuteEnabled" class="select-container">
+        <label class="block text-sm font-medium text-gray-700 text-center mb-2">Minutes</label>
+        <div #minuteScroll class="select-scrollable">
+          <ul class="list-none p-0 m-0">
+            <li
+              *ngFor="let minute of minutes"
+              (click)="setMinute(minute)"
+              [class.selected]="minute === selectedMinute"
+              class="select-option"
+              [ngClass]="{ 'cursor-not-allowed opacity-50': disabled }"
+            >
+              {{ minute.toString().padStart(2, '0') }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="text-right mb-4">
+      <button class="btn btn-outline btn-primary btn-sm" (click)="confirmTime()" [disabled]="disabled">Set Time</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<div class="container mx-auto p-6">
+  <h1 class="text-3xl font-bold mb-8">Settings</h1>
+  <app-user-settings></app-user-settings>
+
+  <app-calendar-settings 
+  [calendarOwnerAction]="calendarAction"
+  (onCalendarAction)="onNewCalendarAction($event)"
+  *ngIf="currentUserType > UserType.REGULAR">
+</app-calendar-settings>
+
+<app-owner-settings 
+  [calendarOwnerAction]="calendarAction"
+  (onCalendarAction)="onNewCalendarAction($event)"
+  *ngIf="currentUserType > UserType.ADMIN">
+</app-owner-settings>
+</div>

@@ -1,0 +1,8 @@
+<div class="toast toast-end z-100">
+    <ng-container *ngFor="let notification of notifications | async">
+      <div class="flex flex-row" [ngClass]="getAlertClass(notification.type)">
+        <span class="grow">{{ notification.message }}</span>
+        <button class="btn btn-xs btn-ghost flex-none w-10" (click)="removeNotification(notification)">X</button>
+      </div>
+    </ng-container>
+  </div>

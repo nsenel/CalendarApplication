@@ -1,0 +1,32 @@
+.select-container {
+  width: 5rem;
+  height: 160px;  // Adjusted height to fit 3 items
+  overflow: hidden;
+  position: relative;
+}
+
+.select-scrollable {
+  height: 80%;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.select-scrollable::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
+}
+
+.select-option {
+  height: 40px;  // Height of each option
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  @apply hover:bg-accent;
+  @apply hover:text-white;
+}
+
+.select-option.selected {
+  @apply bg-primary text-white;
+}

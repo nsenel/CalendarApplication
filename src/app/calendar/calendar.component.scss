@@ -1,0 +1,8 @@
+.current-time-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: red; /* or any color you prefer */
+    z-index: 100; /* Make sure it appears on top */
+  }

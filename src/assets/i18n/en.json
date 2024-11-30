@@ -1,0 +1,95 @@
+{
+    "HEADER": {
+        "HOME": "Home",
+        "CALENDAR": "Calendar",
+        "LOGIN": "Login",
+        "LOGIN_DIALOG": {
+            "TITLE": "User Login",
+            "REGISTER": "Register",
+            "LOGIN_FORM": {
+                "USERNAME": "Username",
+                "USERNAME_ERR": "Name is required.",
+                "PASSWORD": "Password",
+                "PASSWORD_ERR": "Password is required."
+            }
+        },
+        "USER_DIALOG": {
+            "SETTINGS": "Settings",
+            "LOGOUT": "Logout"
+        }
+    },
+    "CALENDAR": {
+        "SELECT_CALENDAR": "Selected Calendar: {{ calendarName }}",
+        "SELECT_VIEW_TYPE": "View Type: {{ viewType }}",
+        "SELECT_VIEW_TYPE_OPTIONS": {
+            "DAY": "Day",
+            "WORKDAYS": "Workdays",
+            "WEEK": "Week",
+            "MONTH": "Month"
+        },
+        "EMPTY_CALENDAR_LIST": "You do not have access to any calendar. Please contact your administrator."
+    },
+    "SETTINGS": {
+        "TITLE": "Settings",
+        "EDIT": "Edit",
+        "SAVE": "Save",
+        "CANCEL": "Cancel",
+        "CONFIRM": "Confirm",
+        "USER": {
+            "FORM": {
+                "TITLE": "User Profile Settings",
+                "INFO": {
+                    "EMAIL": "Email Adress",
+                    "EMAIL_PLACEHOLDER": "Enter your email",
+                    "EMAIL_ERR": "Please enter a valid email address.",
+                    "USERNAME": "Username",
+                    "USERNAME_PLACEHOLDER": "Enter your username",
+                    "USERNAME_ERR": "Username is required."
+                },
+                "PASS": {
+                    "CHANGE_PASS_TITLE": "Change Password",
+                    "CURRENT_PASS": "Current Password",
+                    "CURRENT_PASS_PLACEHOLDER": "Enter your current password",
+                    "CURRENT_PASS_ERR": "Current password is required.",
+                    "NEW_PASS": "New Password",
+                    "NEW_PASS_PLACEHOLDER": "Enter your new password",
+                    "NEW_PASS_ERR": "New password is required.",
+                    "REPEAT_PASS": "Repeat Password",
+                    "REPEAT_PASS_PLACEHOLDER": "Repeat your new password",
+                    "REPEAT_PASS_ERR": "Repeat password is required.",
+                    "REPEAT_PASS_NOT_MATCH_ERR": "Repeat password is not same as new password."
+                }
+            }
+        },
+        "CALENDAR": {
+            "TITLE": "Calendar Settings",
+            "SELECT_CALENDAR_OWNER": "Calendar Owner: {{ calendarName }}",
+            "CALENDAR_TITLE": "Calendar Title",
+            "CALENDAR_TITLE_ERR": "Title is required.",
+            "CALENDAR_TITLE_PLACEHOLDER": "Enter calendar title",
+            "APPOINTMENT_REGISTERED": "Appointment only available for registered users",
+            "APPOINTMENT_REGISTERED_DATA_TIP": "When disabled, anyone can crate appointment request",
+            "START_TIME": "Bookable time starts at",
+            "END_TIME": "Bookable time ends at",
+            "TIME_BETWEEN": "Time in between calendar slots(in minutes)",
+            "APPLY_BREAK": "Apply lunch break",
+            "START_LUNCH": "Lunch time starts at",
+            "END_LUNCH": "Lunch time ends at",
+            "WEEKDAYS": "Bookable time week days",
+            "NO_CALENDAR": "Must have your own calendar first, please create calendar in management settings belongs to you.(Contact with your administrator if you dont have access)"
+        },
+        "MANAGEMENT": {
+            "TITLE": "Management Settings",
+            "RESTRICTED_REGISTER": "Registiration only avaible by administiration",
+            "RESTRICTED_REGISTER_DATA_TIP": "When disabled, anyone can register as regular user",
+            "CREATE_CALENDAR": "Create New Calendar",
+            "CALENDAR_OWNER": "Owner ID: {{ calendarID }}",
+            "OWNER": "Owner",
+            "DELETE": "Delete",
+            "DELETE_MESSAGE": "Are you sure you want to delete this calendar?",
+            "CREATE": "Create",
+            "CREATE_MESSAGE": "Are you sure you want to create a new calendar?",
+            "NO_CALENDAR": "No calendars found. Please create a calendar."
+        }
+    }
+}

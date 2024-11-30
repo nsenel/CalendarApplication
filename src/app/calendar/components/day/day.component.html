@@ -1,0 +1,100 @@
+<!-- <button class="btn">Button</button>
+<button class="btn btn-secondary">Secondary</button>
+<div class="container mx-auto grid grid-cols-1 gap-1">
+    <div 
+    class="tile bg-primary text-primary-content p-4 rounded transition duration-300 ease-in-out hover:bg-accent" 
+    [class.bg-secondary]="isSelected(number)"
+    *ngFor="let number of numberList"
+    (mousedown)="onMouseDown(number)"
+    (mouseup)="onMouseUp(number)">
+      <h1 class="tile-marker select-none text-2xl">{{number}}</h1>
+    </div>
+</div> -->
+
+<!-- <div class="container mx-auto grid grid-cols-1 gap-1">
+    <div
+    class="tile bg-primary text-primary-content p-4 rounded transition duration-300 ease-in-out hover:bg-accent h-64"
+    *ngFor="let startTime of clockList">
+      <h1 class="tile-marker select-none text-2xl" (click)="openModal(startTime)" on-mouseover="consoleTime()">{{startTime}}</h1>
+    </div>
+</div> -->
+
+<!-- <div class="container mx-auto grid grid-cols-1 gap-1">
+  <ng-container *ngFor="let startTime of clockList">
+    <div class="tile bg-primary text-primary-content p-1 rounded transition duration-300 ease-in-out hover:bg-accent"
+      [ngStyle]="{'height.px': tileHeight}" (click)="openModal(startTime)" on-mouseover="consoleTime()">
+      <ng-container *ngFor="let appointment of appointments">
+        <h1 class="bg-secondary select-none text-2xl" (click)="openModal1($event, startTime)">{{appointment.name}}</h1>
+      </ng-container>
+    </div>
+  </ng-container>
+</div> -->
+
+<!-- <div class="container mx-auto grid grid-cols-1 gap-0"> -->
+
+
+<ng-container *ngFor="let visBlock of visBlocksWithAppointments">
+  <div
+    class="tile bg-base-100 text-primary-content transition duration-300  relative border-b border-primary z-5"
+    [ngClass]="{ 'cursor-not-allowed opacity-50': visBlock.dashBlock, 'cursor-pointer ease-in-out hover:bg-accent': visBlock.appointments.length===0 && !visBlock.dashBlock }" [ngStyle]="{ 'height.px': tileHeight }"
+    (click)="!visBlock.dashBlock && visBlock.appointments.length===0 && addAppointment(visBlock)">
+    <ng-container>
+      <div *ngIf="visBlock.dashBlock" class="absolute w-full h-full bg-base-300 rounded-lg">
+      </div>
+    </ng-container>
+
+    <!-- Appointments Display -->
+    <ng-container *ngIf="visBlock.appointments">
+      <ng-container *ngFor="let appointment of visBlock.appointments; index as i">
+        <div *ngIf="appointment.visBlockID === visBlock.id"
+          class="absolute w-full opacity-90 rounded-lg overflow-hidden" [ngStyle]="getAppointmentStyles(visBlock, i)">
+          <!-- Appointment Name and Edit -->
+          <h1 class="bg-secondary select-none px-2 py-1 flex items-center justify-between rounded-lg"
+            [ngStyle]="{ 'height.px': appointment?.viewHeight ?? tileHeight }"
+            [ngClass]="{ 'cursor-pointer ease-in-out hover:bg-accent': appointment.name !== '**' }"
+            (click)="appointment.name !== '**' && editAppointment($event, appointment)">
+            {{ appointment.name }}
+
+            <!-- Delete Button -->
+            <button *ngIf="appointment.name!=='**'"class="text-xs text-white hover:bg-red-600 rounded-full p-1 absolute top-2 right-2"
+              (click)="deleteAppointment($event, appointment)" title="Delete appointment">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path opacity="0.5"
+                  d="M22 10.5V12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2H13.5"
+                  stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                <path d="M22 2L17 7M17 2L22 7" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+            </button>
+          </h1>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-container>
+<!-- </div> -->
+<!-- </div> -->
+
+<!-- <div class="container mx-auto grid grid-cols-1 gap-1">
+  <ng-container *ngFor="let startTime of clockList">
+    <div class="container mx-auto grid grid-cols-1 gap-0 relative">
+      <ng-container *ngFor="let _ of test_array">
+        <div class="tile bg-primary text-primary-content p-1 rounded transition duration-300 ease-in-out hover:bg-accent relative" 
+             [ngStyle]="{'height.px': tileHeight / 4}" (mouseover)="consoleTime()">
+        </div>
+      </ng-container>
+      <div class="absolute inset-0 flex items-center justify-center">
+        sometext
+      </div>
+    </div>
+  </ng-container>
+</div> -->
+
+<!-- Modal -->
+<div *ngIf="formViewOpen" class="fixed inset-0 flex items-center justify-center z-50">
+  <div class="fixed inset-0 bg-gray-800 opacity-60"></div>
+  <div class="bg-base-100 p-10 rounded-box shadow-lg w-full max-w-md z-50">
+    <app-appointment-form [(formViewOpen)]="formViewOpen" [appointmentBlock]="selectedBlock"
+      [appointment]="selectedAppointment" [calendarID]="calendarID"
+      (appointmentChange)="handleAppointmentModel($event)"></app-appointment-form>
+  </div>
+</div>

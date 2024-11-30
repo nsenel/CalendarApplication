@@ -1,0 +1,57 @@
+<div class="relative">
+  <form [formGroup]="appointmentForm" (ngSubmit)="onSubmit()">
+    <!-- Name Field -->
+    <div class="mb-4">
+      <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+      <input id="name" formControlName="name" type="text"
+        class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <div *ngIf="appointmentForm.get('name')?.invalid && appointmentForm.get('name')?.touched"
+        class="text-red-500 text-sm mt-1">
+        <small>Name is required.</small>
+      </div>
+    </div>
+
+    <!-- Start Time Field -->
+    <div class="mb-4">
+      <label for="start_time" class="block text-sm font-medium text-gray-700">Start Time</label>
+      <app-custom-time-picker formControlName="start_time"></app-custom-time-picker>
+      <div *ngIf="appointmentForm.get('start_time')?.invalid && appointmentForm.get('start_time')?.touched"
+        class="text-red-500 text-sm mt-1">
+        <small>Start time is required.</small>
+      </div>
+    </div>
+
+    <!-- End Time Field -->
+    <div class="mb-4">
+      <label for="end_time" class="block text-sm font-medium text-gray-700">End Time</label>
+      <app-custom-time-picker formControlName="end_time"></app-custom-time-picker>
+      <div *ngIf="appointmentForm.get('end_time')?.invalid && appointmentForm.get('end_time')?.touched"
+        class="text-red-500 text-sm mt-1">
+        <small>End time is required.</small>
+      </div>
+    </div>
+
+    <!-- Message Field -->
+    <div class="mb-4">
+      <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+      <textarea id="message" formControlName="message"
+        class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
+      <div *ngIf="appointmentForm.get('message')?.invalid && appointmentForm.get('message')?.touched"
+        class="text-red-500 text-sm mt-1">
+        <small>Message is required.</small>
+      </div>
+    </div>
+
+    <div *ngIf="appointmentForm.errors?.['startTimeAfterEndTime']">
+      <p class="text-red-500">Start time must be earlier than or equal to end time.</p>
+    </div>
+
+    <div class="mt-5 flex justify-between">
+      <button (click)="closeModal()" class="btn btn-outline btn-secondary btn-sm">
+        Cancel
+      </button>
+      <input type="submit" value="Submit" [disabled]="appointmentForm.invalid"
+        class="btn btn-outline btn-primary btn-sm">
+    </div>
+  </form>
+</div>

@@ -1,0 +1,138 @@
+<div class="mb-8">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-semibold">{{"SETTINGS.CALENDAR.TITLE" | translate}}</h2>
+
+    <div *ngIf="avaibleCalenders.length>0">
+      <button *ngIf="isEditing" class="btn btn-outline btn-secondary mr-2" (click)="cancelEdit()">
+        {{"SETTINGS.CANCEL" | translate}}
+      </button>
+      <button *ngIf="isEditing" class="btn btn-outline btn-primary" [disabled]="!calendarSettingsForm.valid"
+        (click)="saveSettings()">
+        {{"SETTINGS.SAVE" | translate}}
+      </button>
+      <button *ngIf="!isEditing" class="btn btn-outline btn-primary" (click)="toggleEdit()">
+        {{"SETTINGS.EDIT" | translate}}
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="avaibleCalenders.length>0 else noCalendarAssigned" [formGroup]="calendarSettingsForm">
+    <!-- this section is for product owner and will have its own settings -->
+    <!-- <input formControlName="id" type="hidden">
+  <label for="accessLevel">Access Level</label>
+  <select formControlName="accessLevel">
+    <option [value]="UserType.PRODUCT_OWNER">Product Owner</option>
+    <option [value]="UserType.ADMIN">Admin</option>
+    <option [value]="UserType.REGULAR">Regular User</option>
+  </select> -->
+    <div *ngIf="avaibleCalenders.length>1" class="dropdown">
+      <button class="btn btn-outline btn-primary btn-sm">{{ "SETTINGS.CALENDAR.SELECT_CALENDAR_OWNER" | translate:{
+        calendarName: calendarSettings?.title } }}</button>
+      <ul class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+        <li *ngFor="let calendar of avaibleCalenders" (click)="selectCalendar(calendar.id)">
+          <button class="w-full text-left p-2"
+            [ngClass]="{'bg-primary text-white': calendar.id === calendarSettings?.id}">
+            {{ calendar.title }}
+          </button>
+        </li>
+      </ul>
+    </div>
+    <div class="form-control mb-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div class="relative">
+          <label class="label">
+            <span class="label-text">{{"SETTINGS.CALENDAR.CALENDAR_TITLE" | translate}}</span>
+          </label>
+          <input formControlName="title" type="text"
+            [placeholder]="'SETTINGS.CALENDAR.CALENDAR_TITLE_PLACEHOLDER' | translate"
+            class="input input-bordered w-full" />
+          <div *ngIf="calendarSettingsForm.get('title')?.touched && calendarSettingsForm.get('title')?.invalid"
+            class="text-red-500 mt-1">
+            <small>>{{"SETTINGS.CALENDAR.CALENDAR_TITLE_ERR" | translate}}</small>
+          </div>
+        </div>
+        <div class="relative flex flex-col">
+          <label class="label">
+            <div class="tooltip" [attr.data-tip]="'SETTINGS.CALENDAR.APPOINTMENT_REGISTERED_DATA_TIP' | translate">
+              <span class="label-text">{{ "SETTINGS.CALENDAR.APPOINTMENT_REGISTERED" | translate }}</span>
+            </div>
+          </label>
+          <div class="flex grow items-center">
+            <input type="checkbox" class="checkbox checkbox-primary mr-2" formControlName="onlyRegisterUserAccess" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-control mb-4" formGroupName="workingHours">
+      <div class="grid grid-cols-2 gap-4">
+        <div class="relative">
+          <label class="label">
+            <span class="label-text">{{"SETTINGS.CALENDAR.START_TIME" | translate}}</span>
+          </label>
+          <app-custom-time-picker formControlName="start"></app-custom-time-picker>
+        </div>
+        <div class="relative">
+          <label class="label">
+            <span class="label-text">{{"SETTINGS.CALENDAR.END_TIME" | translate}}</span>
+          </label>
+          <app-custom-time-picker formControlName="end"></app-custom-time-picker>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-control mb-4" formGroupName="workingHours">
+      <div class="grid grid-cols-2 gap-4">
+        <div class="relative flex flex-col">
+          <label class="label">
+            <span class="label-text">{{"SETTINGS.CALENDAR.TIME_BETWEEN" | translate}}</span>
+          </label>
+          <app-custom-time-picker [hourEnabled]="false" formControlName="timeIntervalBetweenSlots"
+            [minutes]="[5, 10, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180]"></app-custom-time-picker>
+        </div>
+
+        <div class="relative flex flex-col">
+          <label class="label">
+            <span class="label-text">{{"SETTINGS.CALENDAR.APPLY_BREAK" | translate}}</span>
+          </label>
+          <div class="flex grow items-center">
+            <input type="checkbox" class="checkbox checkbox-primary mr-2" formControlName="applyLunch" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-control mb-4" formGroupName="workingHours">
+      <div class="grid grid-cols-2 gap-4">
+        <div class="relative">
+          <label class="label">
+            <span class="label-text">{{"SETTINGS.CALENDAR.START_LUNCH" | translate}}</span>
+          </label>
+          <app-custom-time-picker formControlName="lunchStart"></app-custom-time-picker>
+        </div>
+        <div class="relative">
+          <label class="label">
+            <span class="label-text">{{"SETTINGS.CALENDAR.END_LUNCH" | translate}}</span>
+          </label>
+          <app-custom-time-picker formControlName="lunchEnd"></app-custom-time-picker>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-control mb-4">
+      <label class="label">
+        <span class="label-text">{{"SETTINGS.CALENDAR.WEEKDAYS" | translate}}</span>
+      </label>
+      <div class="flex flex-wrap gap-4">
+        <div *ngFor="let dayControl of daysControls; let i = index" class="flex items-center">
+          <input type="checkbox" class="checkbox checkbox-primary mr-2" [formControl]="dayControl" />
+          <label class="label-text">{{ weekDays[i].name }}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #noCalendarAssigned>
+  <div class="card bg-base-300 rounded-box grid h-20 place-items-center">{{ "SETTINGS.CALENDAR.NO_CALENDAR" | translate
+    }}</div>
+</ng-template>

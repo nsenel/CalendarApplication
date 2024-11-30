@@ -1,0 +1,100 @@
+<!-- User Profile Settings Section -->
+<div class="mb-8">
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-2xl font-semibold">{{"SETTINGS.USER.FORM.TITLE" | translate}}</h2>
+        <div>
+            <button *ngIf="isEditing" class="btn btn-outline btn-secondary mr-2" (click)="cancelEdit()">
+                {{"SETTINGS.CANCEL" | translate}}
+            </button>
+            <button *ngIf="isEditing" class="btn btn-outline btn-primary"
+                [disabled]="userProfileForm.invalid || userPasswordForm.invalid" (click)="saveSettings()">
+                {{"SETTINGS.SAVE" | translate}}
+            </button>
+            <button *ngIf="!isEditing" class="btn btn-outline btn-primary" (click)="toggleEdit()">
+                {{"SETTINGS.EDIT" | translate}}
+            </button>
+        </div>
+    </div>
+
+    <!-- Email Address -->
+    <div class="form-control mb-4" [formGroup]="userProfileForm">
+        <label class="label">
+            <span class="label-text">{{"SETTINGS.USER.FORM.INFO.EMAIL" | translate}}</span>
+        </label>
+        <input formControlName="email" type="email"
+            [placeholder]="'SETTINGS.USER.FORM.INFO.EMAIL_PLACEHOLDER' | translate"
+            class="input input-bordered w-full" />
+        <div *ngIf="userProfileForm.get('email')?.touched && userProfileForm.get('email')?.invalid"
+            class="text-red-500 mt-1">
+            <small>{{"SETTINGS.USER.FORM.INFO.EMAIL_ERR" | translate}}</small>
+        </div>
+    </div>
+
+    <!-- Username -->
+    <div class="form-control mb-4" [formGroup]="userProfileForm">
+        <label class="label">
+            <span class="label-text">{{"SETTINGS.USER.FORM.INFO.USERNAME" | translate}}</span>
+        </label>
+        <input formControlName="username" type="text"
+            [placeholder]="'SETTINGS.USER.FORM.INFO.USERNAME_PLACEHOLDER' | translate"
+            class="input input-bordered w-full" />
+        <div *ngIf="userProfileForm.get('username')?.touched && userProfileForm.get('username')?.invalid"
+            class="text-red-500 mt-1">
+            <small>{{"SETTINGS.USER.FORM.INFO.USERNAME_ERR" | translate}}</small>
+        </div>
+    </div>
+
+    <!-- Change Password Checkbox -->
+    <div class="form-control mb-4">
+        <label class="cursor-pointer label">
+            <h1 class="text-1xl font-semibold">{{"SETTINGS.USER.FORM.PASS.CHANGE_PASS_TITLE" | translate}}</h1>
+            <input type="checkbox" class="toggle toggle-primary" [disabled]="!isEditing" [(ngModel)]="changePassword"
+                (change)="toggleChangePassword()">
+        </label>
+    </div>
+
+    <!-- Current Password -->
+    <div class="form-control mb-4" [class.hidden]="!changePassword" [formGroup]="userPasswordForm">
+        <label class="label">
+            <span class="label-text">{{"SETTINGS.USER.FORM.PASS.CURRENT_PASS" | translate}}</span>
+        </label>
+        <input formControlName="currentPassword" type="password"
+            [placeholder]="'SETTINGS.USER.FORM.PASS.CURRENT_PASS_PLACEHOLDER' | translate"
+            class="input input-bordered w-full" />
+        <div *ngIf="userProfileForm.get('newPassword')?.touched && userProfileForm.get('newPassword')?.invalid"
+            class="text-red-500 mt-1">
+            <small>{{"SETTINGS.USER.FORM.PASS.CURRENT_PASS_ERR" | translate}}</small>
+        </div>
+
+        <!-- New Password -->
+        <div class="form-control mb-4" [class.hidden]="!changePassword" [formGroup]="userPasswordForm">
+            <label class="label">
+                <span class="label-text">{{"SETTINGS.USER.FORM.PASS.NEW_PASS" | translate}}</span>
+            </label>
+            <input formControlName="newPassword" type="password"
+                [placeholder]="'SETTINGS.USER.FORM.PASS.NEW_PASS_PLACEHOLDER' | translate"
+                class="input input-bordered w-full" />
+            <div *ngIf="userProfileForm.get('newPassword')?.touched && userProfileForm.get('newPassword')?.invalid"
+                class="text-red-500 mt-1">
+                <small>{{"SETTINGS.USER.FORM.PASS.NEW_PASS_ERR" | translate}}</small>
+            </div>
+        </div>
+
+        <!-- Repeat Password -->
+        <div class="form-control mb-4" [class.hidden]="!changePassword" [formGroup]="userPasswordForm">
+            <label class="label">
+                <span class="label-text">{{"SETTINGS.USER.FORM.PASS.REPEAT_PASS" | translate}}</span>
+            </label>
+            <input formControlName="repeatPassword" type="password"
+                [placeholder]="'SETTINGS.USER.FORM.PASS.REPEAT_PASS_PLACEHOLDER' | translate"
+                class="input input-bordered w-full" />
+            <div *ngIf="userProfileForm.get('repeatPassword')?.touched && userProfileForm.get('repeatPassword')?.invalid"
+                class="text-red-500 mt-1">
+                <small>{{"SETTINGS.USER.FORM.PASS.REPEAT_PASS_ERR" | translate}}</small>
+            </div>
+            <div *ngIf="userPasswordForm.errors?.['passwordMismatch'] && userPasswordForm.get('repeatPassword')?.touched && userPasswordForm.get('newPassword')?.touched"
+                class="text-red-500 mt-1">
+                <small>{{"SETTINGS.USER.FORM.PASS.REPEAT_PASS_NOT_MATCH_ERR" | translate}}</small>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,49 @@
+<h2 class="text-lg font-bold text-center">{{"HEADER.LOGIN_DIALOG.TITLE" | translate}}</h2>
+<div class="relative">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="mb-4">
+            <label for="username" class="block text-sm font-medium text-gray-700">
+                {{"HEADER.LOGIN_DIALOG.LOGIN_FORM.USERNAME" | translate}}
+            </label>
+            <input 
+                formControlName="username" 
+                type="text"
+                class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            <div 
+                *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched"
+                class="text-red-500 text-sm mt-1">
+                {{"HEADER.LOGIN_DIALOG.LOGIN_FORM.USERNAME_ERR" | translate}}
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label for="password" class="block text-sm font-medium text-gray-700">
+                {{"HEADER.LOGIN_DIALOG.LOGIN_FORM.PASSWORD" | translate}}
+            </label>
+            <input 
+                type="password" 
+                formControlName="password"
+                class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            <div 
+                *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+                class="text-red-500 text-sm mt-1">
+                {{"HEADER.LOGIN_DIALOG.LOGIN_FORM.PASSWORD_ERR" | translate}}
+            </div>
+        </div>
+
+        <div class="flex flex-col items-end card-actions mt-5">
+            <button 
+                type="submit" 
+                class="btn btn-outline btn-primary btn-sm">
+                {{"HEADER.LOGIN" | translate}}
+            </button>
+            <ng-container *ngIf="registerAllowed">
+                <a 
+                class="mt-2 text-sm text-indigo-500 hover:underline cursor-pointer"
+                (click)="onRegisterClick()">
+                {{"HEADER.LOGIN_DIALOG.REGISTER" | translate}}
+            </a>
+            </ng-container>
+        </div>
+    </form>
+</div>

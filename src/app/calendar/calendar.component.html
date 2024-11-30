@@ -1,0 +1,145 @@
+<ng-container *ngIf="avaibleCalenders.length>0 else noCalendarAssigned">
+  <div class="flex flex-col overflow-hidden h-full">
+    <div class="flex flex-row z-20 items-center px-2">
+      <!-- First Item: Calendar Selector (aligned to left) -->
+      <div class="flex justify-start w-1/3">
+        <div class="dropdown">
+          <button class="btn btn-outline btn-primary btn-sm">
+            {{ "CALENDAR.SELECT_CALENDAR" | translate:{ calendarName: calendarSetting?.title } }}
+          </button>
+          <ul class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+            <li *ngFor="let calendar of avaibleCalenders" (click)="selectCalendar(calendar.id)">
+              <button class="w-full text-left p-2" [ngClass]="{'bg-primary text-white': calendar.id === calendarSetting?.id}">
+                {{ calendar.title }}
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    
+      <!-- Second Item: Custom Date Picker (centered) -->
+      <div class="flex justify-center w-1/3">
+        <app-custom-date-picker [currentLocale]="currentLocale" [calandarViewType]="currentViewType" [selectedDate]="selectedDate.setLocale(currentLocale)"
+          (selectedDateChange)="onDateChange($event)">
+        </app-custom-date-picker>
+      </div>
+    
+      <!-- Third Item: View Type Selector (aligned to right) -->
+      <div class="flex justify-end w-1/3">
+        <div class="dropdown dropdown-end">
+          <button class="btn btn-outline btn-primary btn-sm">
+            {{"CALENDAR.SELECT_VIEW_TYPE" | translate:{ viewType: viewTypeTranslator(currentViewType) } }}
+          </button>
+          <ul class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+            <li *ngFor="let view of viewTypes" (click)="selectViewType(view)">
+              <button class="w-full text-left p-2" [ngClass]="{'bg-primary text-white': view === currentViewType}">
+                {{ viewTypeTranslator(view) }}
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="flex items-center justify-center p-2 overflow-hidden">
+      <div #scrollContainer class="grid gap-0 border-b border-primary overflow-x-auto overflow-y-auto w-full h-full"
+        [ngStyle]="{
+    minheight: '35vh',
+    'grid-template-columns':
+      'repeat(' + getNumberOfColumns() + ', minmax(80px, 1fr))'
+  }">
+        <div class="sticky left-0 col-span-1 border-r border-dashed border-primary bg-base-300 z-10">
+          <div class="relative border-b border-dashed border-primary" [ngStyle]="{ 'height.px': tileHeight * 2 }"></div>
+          <ng-container *ngFor="let visBlock of visBlocks">
+            <div class="relative border-b border-dashed border-primary" [ngStyle]="{ 'height.px': tileHeight }">
+              <!-- <div class="relative border-b border-dashed border-primary" [ngStyle]="{ 'height.px': tileHeight }" [id]="isCurrentTimeBlock(visBlock) ? 'current-time-block' : null"></div> -->
+              <ng-container *ngIf="visBlock.startTime">
+                <h1 class="tile-marker select-none text-2xl absolute top-0 left-0"
+                  [ngStyle]="{ 'font-size': getFontSize(visBlock) }">
+                  {{ visBlock.startTime.toFormat("HH:mm") }}
+                </h1>
+              </ng-container>
+              <h1 class="tile-marker select-none text-2xl absolute bottom-0 left-0"
+                [ngStyle]="{ 'font-size': getFontSize(visBlock) }">
+                {{ visBlock.endTime.toFormat("HH:mm") }}
+              </h1>
+            </div>
+          </ng-container>
+        </div>
+        <ng-container *ngFor="let day of days">
+          <div class="col-span-2 border-r border-primary">
+            <div class="sticky top-0 relative border-b border-primary bg-base-300 z-10"
+              [ngStyle]="{ 'height.px': tileHeight * 2 }">
+              <h1 class="h-full flex flex-col place-content-center text-center place-items-center">
+                {{ day.setLocale(currentLocale).toFormat("cccc, MMM dd") }}
+              </h1>
+            </div>
+            <app-day [calendarID]="calendarSetting?.id" [visBlocks]="visBlocks" [tileHeight]="tileHeight" [day]="day"
+              [disableDay]="isDateDisable(day)"></app-day>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<ng-template #noCalendarAssigned>
+  <div class="flex items-center justify-center min-h-screen">
+    <div class="card bg-base-300 rounded-box p-5 shadow-md text-center">
+      {{"CALENDAR.EMPTY_CALENDAR_LIST"
+                | translate}}
+    </div>
+  </div>
+</ng-template>
+<!-- <div class="container mx-auto grid grid-cols-8 gap-0 border-b border-primary">
+  <div class="col-span-1 border-r border-dashed border-primary">
+    <div
+      class="relative border-b border-dashed border-primary"
+      [ngStyle]="{ 'height.px': tileHeight * 2 }"
+    ></div>
+    <ng-container *ngFor="let visBlock of visBlocks">
+      <div
+        class="relative border-b border-dashed border-primary"
+        [ngStyle]="{ 'height.px': tileHeight }"
+      >
+        <ng-container *ngIf="visBlock.startTime">
+          <h1
+            class="tile-marker select-none text-2xl absolute top-0 left-0"
+            [ngStyle]="{ 'font-size': getFontSize(visBlock) }"
+          >
+            {{ visBlock.startTime.toFormat("HH:mm") }}
+          </h1>
+        </ng-container>
+        <h1
+          class="tile-marker select-none text-2xl absolute bottom-0 left-0"
+          [ngStyle]="{ 'font-size': getFontSize(visBlock) }"
+        >
+          {{ visBlock.endTime.toFormat("HH:mm") }}
+        </h1>
+      </div>
+    </ng-container>
+  </div>
+  <ng-container *ngFor="let day of days">
+    <div class="col-span-1 border-r border-primary">
+      <div
+        class="relative border-b border-primary"
+        [ngStyle]="{ 'height.px': tileHeight * 2 }"
+      >
+        <h1
+          class="h-full flex flex-col place-content-center text-center place-items-center"
+        >
+        {{day.toFormat('cccc, MMM dd')}}
+        </h1>
+      </div>
+      <app-day
+        [visBlocks]="visBlocks"
+        [tileHeight]="tileHeight"
+        [day]="day"
+      ></app-day>
+    </div>
+  </ng-container>
+
+  
+</div> -->
+
+<!-- <div class="day-component">
+    <app-day [visBlocks]="visBlocks" [tileHeight]="tileHeight"></app-day>
+  </div> -->
