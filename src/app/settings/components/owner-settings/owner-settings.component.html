@@ -30,7 +30,7 @@
       <input type="checkbox" class="checkbox checkbox-primary mr-2" formControlName="restrictedUserRegistiration" />
     </div>
 
-    <button (click)="setModalType(ModalTypes.CREATE)" class="btn btn-outline btn-primary">
+    <button [disabled]="!isEditing" (click)="setModalType(ModalTypes.CREATE)" class="btn btn-outline btn-primary">
       {{"SETTINGS.MANAGEMENT.CREATE_CALENDAR" | translate}}
     </button>
   </div>
@@ -50,14 +50,14 @@
           <div class="flex items-center justify-between space-x-4">
             <!-- Owner selection -->
             <label class="font-medium">{{"SETTINGS.MANAGEMENT.OWNER" | translate}}:</label>
-            <select [(ngModel)]="calendar.calendarOwnerID" (change)="onOwnerChange($event, calendar.id)"
+            <select [disabled]="!isEditing" [(ngModel)]="calendar.calendarOwnerID" (change)="onOwnerChange($event, calendar.id)"
               class="select select-bordered select-sm">
               <option *ngFor="let user of users" [value]="user.id">
                 {{ user.username }}
               </option>
             </select>
 
-            <button class="btn btn-error btn-sm" (click)="setModalType(ModalTypes.DELETE, calendar.id)">
+            <button [disabled]="!isEditing" class="btn btn-error btn-sm" (click)="setModalType(ModalTypes.DELETE, calendar.id)">
               {{"SETTINGS.MANAGEMENT.DELETE" | translate}}
             </button>
           </div>

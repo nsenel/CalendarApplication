@@ -28,7 +28,7 @@ export class CalendarSettingsService implements ICalendarSettingsService {
   // --- Real backend function implementations 'Supabase' ---
 
   private async fetchCalendarSettings(): Promise<CalendarSetting[]> {
-    const tenantId: string | undefined = this.tenantService.getCacheTenantDetails()?.tenantID
+    const tenantId: string | undefined = this.tenantService.getTenant();
     if (tenantId === undefined) {
       return Promise.reject(new Error("Can not read tenant"))
     }

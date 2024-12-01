@@ -41,17 +41,14 @@ export class OwnerSettingsMockService implements IOwnerSettingsService {
       tenantID: this.tenantService.getTenant()
     }
     mockCalendarSettings.push(newCalendar)
-    console.log(newCalendar)
     return Promise.resolve(true);
   }
 
   editCalendarAssignment(calendarID: string, userID: string): Promise<boolean> {
-    console.log("editCalendarAssignment",userID)
     const calendarSettingIndex: number = mockCalendarSettings.findIndex(x => x.id === calendarID && x.tenantID === this.tenantService.getTenant());
 
     if (calendarSettingIndex >= 0) {
       mockCalendarSettings[calendarSettingIndex].calendarOwnerID = userID;
-      console.log("editCalendarAssignment updated")
       return Promise.resolve(true);
     } else {
       return Promise.reject(new Error('Calendar does not exist'));

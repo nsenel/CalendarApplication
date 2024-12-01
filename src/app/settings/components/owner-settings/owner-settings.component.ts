@@ -102,12 +102,12 @@ export class OwnerSettingsComponent implements OnInit {
       this.tenantService.updateTenantDetails(tempTenantDetails).then((result: boolean) => {
         if (result) {
           this.tenantDetails = tempTenantDetails
+          this.toggleEdit();
         }
         else {
           console.log("Error updating tenant information")
         }
       })
-      this.toggleEdit();
     }
 
 

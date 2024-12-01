@@ -25,7 +25,6 @@ export class CalendarSettingsMockService implements ICalendarSettingsService {
       x => x.calendarOwnerID === user?.id && userRole >= x.accessLevel && user.tenantID === x.tenantID
     );
     if (calendarSetting.length > 0) {
-      console.log("getCalendarSetting for calendarID", calendarSetting)
       return Promise.resolve(calendarSetting);
     }
     else {

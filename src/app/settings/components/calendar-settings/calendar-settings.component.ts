@@ -154,7 +154,6 @@ export class CalendarSettingsComponent implements OnInit {
             new NotificationMessage('Settings saved successfully!', NotificationType.Success, 4000)
           );
           this.toggleEdit();
-          console.log(updatedSettings)
           const action: CalendarActionPayload = {
             action: CalendarAction.EDIT,
             calendarID: updatedSettings.id,
