@@ -5,13 +5,14 @@ import { Appointment } from '../../models/appointment-model/appointment.model';
 import { IAppointmentService } from './appointment.service.interface';
 import { ILoginService } from 'src/app/common/components/user/sevices/login/login.service.interface';
 import { supabase } from 'src/app/common/superbase/base-client';
+import { ITenantService } from 'src/app/common/sevices/tenant-service/tenant.service.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppointmentService implements IAppointmentService {
 
-  constructor(private userService: ILoginService) { }
+  constructor(private userService: ILoginService, private tenantService: ITenantService) { }
 
   getAppointments(calendarID: string): Observable<Appointment[]> {
     return from(this.fetchAppointments(calendarID));
@@ -40,11 +41,9 @@ export class AppointmentService implements IAppointmentService {
   // --- Real backend function implementations 'Supabase' ---
 
   private async fetchAppointments(calendarID: string, start_day?: DateTime, end_date?: DateTime): Promise<Appointment[]> {
-    const currentUser = this.userService.getCurrentUser();
-    console.log("currentUser:",currentUser)
-    var tenantId = "14d29f22-d15d-45e3-83ed-bd932c4028f6" // TODO this should come from link maybe or from user?
-    if (currentUser) {
-      tenantId = currentUser.tenantID;
+    const tenantId: string | undefined = this.tenantService.getCacheTenantDetails()?.tenantID
+    if (tenantId === undefined) {
+      return Promise.reject(new Error("Can not read tenant"))
     }
     const selectedDate = start_day ? start_day.startOf('day').toISO() : null;
     // Take end_date if avaible, if not take start_date, if also not avaible set it to null
@@ -62,10 +61,9 @@ export class AppointmentService implements IAppointmentService {
   }
 
   private async fetchAppointment(appointmentID: string): Promise<Appointment> {
-    const currentUser = this.userService.getCurrentUser();
-    var tenantId = "14d29f22-d15d-45e3-83ed-bd932c4028f6" // TODO this should come from link maybe or from user?
-    if (currentUser) {
-      tenantId = currentUser.tenantID;
+    const tenantId: string | undefined = this.tenantService.getCacheTenantDetails()?.tenantID
+    if (tenantId === undefined) {
+      return Promise.reject(new Error("Can not read tenant"))
     }
     const { data, error } = await supabase
       .rpc('get_appointment_by_id', {
@@ -81,17 +79,16 @@ export class AppointmentService implements IAppointmentService {
 
   private async insertAppointment(appointment: Appointment): Promise<string> {
     const uuid = crypto.randomUUID();
-    const currentUser = this.userService.getCurrentUser();
-    var tenantId = "14d29f22-d15d-45e3-83ed-bd932c4028f6" // TODO this should come from link maybe or from user?
-    if (currentUser) {
-      tenantId = currentUser.tenantID;
+    const tenantId: string | undefined = this.tenantService.getCacheTenantDetails()?.tenantID
+    if (tenantId === undefined) {
+      return Promise.reject(new Error("Can not read tenant"))
     }
     const { data, error } = await supabase
       .from('appointments')
       .insert([{
         id: uuid,
         calendar_id: appointment.calendarID,
-        created_by: currentUser?.id ?? null,
+        created_by: this.userService.getCurrentUser(),
         start_time: appointment.startTime,
         end_time: appointment.endTime,
         appointment_info: { "name": appointment.name, "message": appointment.message },
