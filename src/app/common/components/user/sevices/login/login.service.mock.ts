@@ -20,7 +20,6 @@ export class LoginMockService implements ILoginService {
   }
 
   async login(username: string, password: string): Promise<boolean> {
-    // Simulate network delay
     await this.simulateDelay();
 
     // Validate credentials
