@@ -11,16 +11,10 @@ import { TenantDetails } from 'src/app/common/models/tenant-model/tenant-details
 })
 export class LoginService implements ILoginService {
   private currentUser: User | null = null;
-  private tenantDetails: TenantDetails | undefined = undefined;
   private readonly _userLogedin$ = new BehaviorSubject<boolean>(false);
   public readonly userLogedin$ = this._userLogedin$.asObservable();
 
   constructor(private tenantService: ITenantService) {
-    tenantService.tenant$.subscribe(tenantID => {
-      if (tenantID) {
-        this.tenantService.getTenantDetails(tenantID).subscribe((details) => this.tenantDetails = details);
-      }
-    });
     this.initializeUser();
     console.log("I am going to autologin!!")
     //this.login("owner2@email.com","owner2")
@@ -31,7 +25,8 @@ export class LoginService implements ILoginService {
   }
 
   isUserRegisterRestricted(): boolean {
-    return this.tenantDetails ? this.tenantDetails.restrictedUserRegister : false
+    const details = this.tenantService.getCacheTenantDetails();
+    return details ? details.restrictedUserRegister : false
   }
 
   public async signUpNewUser(userEmail:string, password:string) {

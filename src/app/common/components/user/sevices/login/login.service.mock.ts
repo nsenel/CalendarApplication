@@ -4,7 +4,6 @@ import { User, UserType } from '../../models/user/user.model';
 import { getPassword, mockUsers, userPasswords } from './mock.data'
 import { ITenantService } from 'src/app/common/sevices/tenant-service/tenant.service.interface';
 import { BehaviorSubject } from 'rxjs';
-import { TenantDetails } from 'src/app/common/models/tenant-model/tenant-details.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,17 +11,11 @@ import { TenantDetails } from 'src/app/common/models/tenant-model/tenant-details
 export class LoginMockService implements ILoginService {
   private currentUser: User | null = null;
   private sessionExpirationTime: number | null = null;
-  private tenantDetails: TenantDetails | undefined = undefined;
   private readonly sessionDuration = 30 * 60 * 1000; // 30 minutes
   private readonly _userLogedin$ = new BehaviorSubject<boolean>(false);
   public readonly userLogedin$ = this._userLogedin$.asObservable();
 
   constructor(private tenantService: ITenantService) {
-    tenantService.tenant$.subscribe(tenantID => {
-      if (tenantID) {
-        this.tenantService.getTenantDetails(tenantID).subscribe((details) => this.tenantDetails = details);
-      }
-    });
     this.login("owner", "owner"); console.log("Auto login as admin")
   }
 
@@ -46,7 +39,8 @@ export class LoginMockService implements ILoginService {
   }
 
   isUserRegisterRestricted(): boolean {
-    return this.tenantDetails ? this.tenantDetails.restrictedUserRegister : false
+    const details = this.tenantService.getCacheTenantDetails();
+    return details ? details.restrictedUserRegister : false
   }
 
   async signUpNewUser(email: string, password: string) {

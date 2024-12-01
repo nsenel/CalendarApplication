@@ -74,7 +74,7 @@ export class OwnerSettingsComponent implements OnInit {
   patchInitValuesFormValues() {
     const currentTenant = this.tenantService.getTenant();
     if (currentTenant) {
-      this.tenantService.getTenantDetails(currentTenant).subscribe((tenantDetails) => {
+      this.tenantService.getTenantDetails(currentTenant).then((tenantDetails) => {
         this.tenantDetails = tenantDetails ?? undefined;
         this.ownerSettingsForm.patchValue({ restrictedUserRegistiration: tenantDetails?.restrictedUserRegister ?? false })
       });
@@ -99,7 +99,7 @@ export class OwnerSettingsComponent implements OnInit {
     if (this.tenantDetails) {
       let tempTenantDetails: TenantDetails = { ...this.tenantDetails }
       tempTenantDetails.restrictedUserRegister = this.ownerSettingsForm.value.restrictedUserRegistiration;
-      this.tenantService.updateTenantDetails(tempTenantDetails).subscribe((result: boolean) => {
+      this.tenantService.updateTenantDetails(tempTenantDetails).then((result: boolean) => {
         if (result) {
           this.tenantDetails = tempTenantDetails
         }
