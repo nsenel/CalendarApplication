@@ -1,31 +1,53 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { TenantDetails } from '../../models/tenant-model/tenant-details.model';
 import { ITenantService } from './tenant.service.interface';
+import { supabase } from '../../superbase/base-client';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TenantService extends ITenantService {
-  private apiUrl = 'https://api.example.com/tenants'; // Replace with your actual API URL
-  private currentTenant?: string;
 
-  constructor(private http: HttpClient) {
-    super();
+  getTenantDetails(tenantID: string): Promise<TenantDetails | undefined> {
+    if (this.tenantDetails) { return Promise.resolve(this.tenantDetails); }
+    console.log("getTenantDetails fetching")
+    return this.fetchTenantDetails(tenantID);
   }
 
-  getTenantDetails(tenantID: string): Observable<TenantDetails | undefined> {
-    if (!this.currentTenant) {
-      throw new Error('No tenant is set');
-    }
-    return this.http.get<TenantDetails>(`${this.apiUrl}/${this.currentTenant}`);
+  updateTenantDetails(details: TenantDetails): Promise<boolean> {
+    return this.updateTenantDetailsTable(details);
   }
 
-  updateTenantDetails(details: TenantDetails): Observable<boolean> {
-    if (!this.currentTenant) {
-      throw new Error('No tenant is set');
+  // --- Real backend function implementations 'Supabase' ---
+
+  private async fetchTenantDetails(tenantID: string): Promise<TenantDetails | undefined> {
+    const { data, error } = await supabase
+      .from('tenants').select('*').eq('tenant_id', tenantID).single();
+    if (error) {
+      console.log(error)
+      console.error('Error fetching tenant details:', error);
+      return Promise.reject(new Error('Error fetching tenant details:' + error));
     }
-    return this.http.put<boolean>(`${this.apiUrl}/${this.currentTenant}`, details);
+    this.tenantDetails = new TenantDetails(data['tenant_id'], data['owner'], data['restricted_user_register']);
+    return Promise.resolve(this.tenantDetails);
+  }
+
+  private async updateTenantDetailsTable(details: TenantDetails): Promise<boolean> {
+    try {
+      const { error } = await supabase
+        .from('tenants')
+        .update({ restricted_user_register: details.restrictedUserRegister })
+        .eq('tenant_id', details.tenantID)
+        .eq('owner', details.owner)
+        .single();
+      if (error) throw error;
+      else { return this.fetchTenantDetails(details.tenantID).then((_) => { 
+        return _ ? Promise.resolve(true) : Promise.resolve(false) 
+      })
+     }
+    } catch (error) {
+      console.error('Error in update tenant details:', error);
+      return Promise.reject(new Error('Error in update tenant details:' + error));
+    }
   }
 }

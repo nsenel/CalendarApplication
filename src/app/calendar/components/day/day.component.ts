@@ -209,7 +209,6 @@ export class DayComponent implements OnInit {
   }
   deleteAppointment(event: Event, selectedAppointment: AppointmentVis) {
     event.stopPropagation();
-    console.log("delete", selectedAppointment);
     this.appointmentService.removeAppointment(selectedAppointment).subscribe(
       (res) => {
         this.notificationService.showNotification(

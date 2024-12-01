@@ -46,4 +46,7 @@ export class User {
       authedUser.username = supabaseUserInfo.user_name,
       authedUser.role = supabaseUserInfo.access_level as UserType;
   }
+  static supabaseUserInfo(supabaseUserInfo: any): UserInfo {
+    return new UserInfo(supabaseUserInfo.user_id, supabaseUserInfo.tenant_id, supabaseUserInfo.user_name, supabaseUserInfo.access_level as UserType)
+  }
 }

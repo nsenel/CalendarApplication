@@ -7,10 +7,8 @@ export abstract class ITenantService {
   public readonly tenant$ = this._tenant$.asObservable();
 
   setTenant(tenant: string): void {
-    console.log("set tenant called")
     this.getTenantDetails(tenant).then((details) => {
       if (details) {
-        this.tenantDetails = details;
         this._tenant$.next(tenant);
       }
     })
@@ -29,7 +27,7 @@ export abstract class ITenantService {
     return this._tenant$.value;
   }
 
-  getCacheTenantDetails(): TenantDetails | undefined{
+  getCacheTenantDetails(): TenantDetails | undefined {
     return this.tenantDetails;
   }
 

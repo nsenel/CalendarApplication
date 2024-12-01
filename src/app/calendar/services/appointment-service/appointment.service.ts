@@ -41,7 +41,7 @@ export class AppointmentService implements IAppointmentService {
   // --- Real backend function implementations 'Supabase' ---
 
   private async fetchAppointments(calendarID: string, start_day?: DateTime, end_date?: DateTime): Promise<Appointment[]> {
-    const tenantId: string | undefined = this.tenantService.getCacheTenantDetails()?.tenantID
+    const tenantId: string | undefined = this.tenantService.getTenant();
     if (tenantId === undefined) {
       return Promise.reject(new Error("Can not read tenant"))
     }
@@ -61,7 +61,7 @@ export class AppointmentService implements IAppointmentService {
   }
 
   private async fetchAppointment(appointmentID: string): Promise<Appointment> {
-    const tenantId: string | undefined = this.tenantService.getCacheTenantDetails()?.tenantID
+    const tenantId: string | undefined = this.tenantService.getTenant()
     if (tenantId === undefined) {
       return Promise.reject(new Error("Can not read tenant"))
     }
@@ -79,7 +79,7 @@ export class AppointmentService implements IAppointmentService {
 
   private async insertAppointment(appointment: Appointment): Promise<string> {
     const uuid = crypto.randomUUID();
-    const tenantId: string | undefined = this.tenantService.getCacheTenantDetails()?.tenantID
+    const tenantId: string | undefined = this.tenantService.getTenant();
     if (tenantId === undefined) {
       return Promise.reject(new Error("Can not read tenant"))
     }

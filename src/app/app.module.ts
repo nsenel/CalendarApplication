@@ -78,8 +78,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-          useFactory: HttpLoaderFactory,
-          deps: [HttpClient]
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
       }
     }),
     AppRoutingModule
@@ -92,22 +92,18 @@ export function HttpLoaderFactory(http: HttpClient) {
     },
     {
       provide: IAppointmentService,
-      //useClass: AppointmentService
       useClass: environment.useMockService ? AppointmentMockService : AppointmentService
     },
     {
       provide: ILoginService,
-      //useClass: LoginService //environment.useMockService ? LoginMockService : 
       useClass: environment.useMockService ? LoginMockService : LoginService
-    }
-    ,
+    },
     {
       provide: IUserSettingsService,
       useClass: environment.useMockService ? UserSettingsMockService : UserSettingsService
     },
     {
       provide: ICalendarSettingsService,
-      //useClass: CalendarSettingsService //environment.useMockService ? CalendarSettingsMockService :
       useClass: environment.useMockService ? CalendarSettingsMockService : CalendarSettingsService
     },
     {

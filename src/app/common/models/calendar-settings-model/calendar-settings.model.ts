@@ -49,7 +49,8 @@ export class CalendarMappingService {
       lunch_start: calendarSetting.lunchStart,
       lunch_end: calendarSetting.lunchEnd,
       working_days: calendarSetting.workingDays,
-      calendar_owner: calendarSetting.calendarOwnerID
+      calendar_owner: calendarSetting.calendarOwnerID,
+      tenant_id:calendarSetting.tenantID
     };
   }
 }
