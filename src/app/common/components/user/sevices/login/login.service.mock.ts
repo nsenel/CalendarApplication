@@ -44,7 +44,7 @@ export class LoginMockService implements ILoginService {
 
   async signUpNewUser(email: string, password: string) {
     const id = Math.floor(Math.random() * 1000);
-    mockUsers.push(new User(id.toString(), 'regular' + id, this.tenantService.getTenant(), email, UserType.REGULAR))
+    mockUsers.push(new User(id.toString(), 'regular ' + id, this.tenantService.getTenant(), email, UserType.REGULAR))
     userPasswords["regular" + id] = password;
   }
 
