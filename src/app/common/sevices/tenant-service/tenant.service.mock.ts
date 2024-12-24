@@ -7,7 +7,11 @@ import { TenantDetails } from '../../models/tenant-model/tenant-details.model';
     providedIn: 'root',
 })
 export class TenantMockService extends ITenantService {
-    mockTenantsDetails: TenantDetails[] = [new TenantDetails("0", "0"), new TenantDetails("1", "3")];
+    mockTenantsDetails: TenantDetails[] = [new TenantDetails("0", "0", "Mock A"), new TenantDetails("1", "3", "Mock B")];
+
+    getAllTenantDetails(): Promise<TenantDetails[] | undefined> {
+        return Promise.resolve(this.mockTenantsDetails);
+      }
 
     getTenantDetails(tenantID: string): Promise<TenantDetails | undefined> {
         if(this.tenantDetails){return Promise.resolve(this.tenantDetails);}

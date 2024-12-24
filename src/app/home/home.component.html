@@ -1,12 +1,20 @@
 <div *ngIf="tenant; else defaultHome">
-    <!-- Tenant-specific home page -->
-    <h1>Welcome, {{ tenant }}!</h1>
-    <!-- Add tenant-specific content here -->
-  </div>
+
+  <h1>Welcome, {{ tenant }}!</h1>
+</div>
+
+<ng-template #defaultHome>
+  <h1>Welcome to the Home Page</h1>
+  <p>Please select a tenant to continue.</p>
   
-  <ng-template #defaultHome>
-    <!-- Default home page where user can select a tenant -->
-    <h1>Welcome to the Home Page</h1>
-    <p>Please select a tenant to continue.</p>
-    <!-- Add selection UI here -->
-  </ng-template>
+  
+</ng-template>
+<form [formGroup]="tenantForm">
+  <div>
+    <label for="tenantSelect">Select a Tenant:</label>
+    <select id="tenantSelect" formControlName="tenant">
+      <option [value]="null" disabled>Select a Tenant</option>
+      <option *ngFor="let t of tenants" [value]="t.tenantID">{{ t.name }}</option>
+    </select>
+  </div>
+</form>

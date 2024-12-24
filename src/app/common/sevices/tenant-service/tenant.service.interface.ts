@@ -9,6 +9,7 @@ export abstract class ITenantService {
   setTenant(tenant: string): void {
     this.getTenantDetails(tenant).then((details) => {
       if (details) {
+        this.tenantDetails = details;
         this._tenant$.next(tenant);
       }
     })
@@ -33,5 +34,6 @@ export abstract class ITenantService {
 
   // Abstract methods for fetching/updating tenant details
   abstract getTenantDetails(tenantID: string): Promise<TenantDetails | undefined>;
+  abstract getAllTenantDetails(): Promise<TenantDetails[] | undefined>;
   abstract updateTenantDetails(details: TenantDetails): Promise<boolean>;
 }
