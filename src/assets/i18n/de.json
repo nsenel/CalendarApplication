@@ -5,7 +5,8 @@
         "LOGIN": "Anmelden",
         "LOGIN_DIALOG": {
             "TITLE": "Benutzeranmeldung",
-            "FORM": {
+            "REGISTER": "Anmelden",
+            "LOGIN_FORM": {
                 "USERNAME": "Benutzername",
                 "USERNAME_ERR": "Name ist erforderlich.",
                 "PASSWORD": "Passwort",
