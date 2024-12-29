@@ -1,20 +1,102 @@
-<div *ngIf="tenant; else defaultHome">
+<div class="container mx-auto p-6">
+  <!-- Header Section -->
+  <header class="text-center mb-6">
+    <h1 class="text-4xl font-bold">{{ "HOME_PAGE.TITLE" | translate }}</h1>
+    <p class="text-lg text-gray-600">{{ "HOME_PAGE.DESCRIPTION" | translate }}</p>
+  </header>
 
-  <h1>Welcome, {{ tenant }}!</h1>
+  <!-- Main Content Section with Image on Left -->
+  <section class="flex flex-col md:flex-row items-center bg-base-200 p-6 rounded-lg shadow-md mb-6">
+    <!-- Calendar View Section -->
+    <div class="flex-shrink-0 w-full md:w-1/2 p-4">
+      <img src="../../assets/images/eea078d4-8b86-4cbd-a750-3f4c51008062.webp"
+        alt="{{ 'HOME_PAGE.HOW_IT_WORKS.TITLE' | translate }}" class="rounded-lg shadow-md">
+      <!-- How It Works Section -->
+      <section class="mt-6">
+        <h2 class="text-2xl font-semibold mb-4">{{ "HOME_PAGE.HOW_IT_WORKS.TITLE" | translate }}</h2>
+        <ol class="list-decimal list-inside space-y-2">
+          <li>
+            <strong>{{ "HOME_PAGE.HOW_IT_WORKS.STEP_1.STRONG" | translate }}</strong>
+            {{ "HOME_PAGE.HOW_IT_WORKS.STEP_1.TEXT" | translate }}
+          </li>
+          <li>
+            <strong>{{ "HOME_PAGE.HOW_IT_WORKS.STEP_2.STRONG" | translate }}</strong>
+            {{ "HOME_PAGE.HOW_IT_WORKS.STEP_2.TEXT" | translate }}
+          </li>
+          <li>
+            <strong>{{ "HOME_PAGE.HOW_IT_WORKS.STEP_3.STRONG" | translate }}</strong>
+            {{ "HOME_PAGE.HOW_IT_WORKS.STEP_3.TEXT" | translate }}
+          </li>
+        </ol>
+      </section>
+    </div>
+
+    <!-- Right Content Section -->
+    <div class="w-full md:w-1/2 p-4">
+      <!-- Tenant Selection -->
+      <div class="mb-6">
+        <h2 class="text-2xl font-semibold mb-4">{{ "HOME_PAGE.SELECT_TENANT.TITLE" | translate }}</h2>
+        <form [formGroup]="tenantForm">
+          <div class="form-control">
+            <select id="tenantSelect" formControlName="tenant" class="select select-bordered w-full">
+              <option [value]="null" disabled>{{ "HOME_PAGE.SELECT_TENANT.PLACEHOLDER" | translate }}</option>
+              <option *ngFor="let t of tenants" [value]="t.tenantID">{{ t.name }}</option>
+            </select>
+          </div>
+        </form>
+      </div>
+
+      <!-- Role Selection Section -->
+      <div>
+        <h2 class="text-2xl font-semibold mb-4">{{ "HOME_PAGE.LOGIN_OPTIONS.TITLE" | translate }}</h2>
+        <p class="mb-4">{{ "HOME_PAGE.LOGIN_OPTIONS.DESCRIPTION" | translate }}</p>
+        <div class="grid grid-cols-1 gap-6">
+          <div class="card shadow-md">
+            <div class="card-body">
+              <h3 class="card-title">{{ "HOME_PAGE.LOGIN_OPTIONS.OWNER.TITLE" | translate }}</h3>
+              <p>{{ "HOME_PAGE.LOGIN_OPTIONS.OWNER.DESCRIPTION" | translate }}</p>
+              <button class="btn btn-primary w-full">{{ "HOME_PAGE.LOGIN_OPTIONS.OWNER.BUTTON" | translate }}</button>
+            </div>
+          </div>
+          <div class="card shadow-md">
+            <div class="card-body">
+              <h3 class="card-title">{{ "HOME_PAGE.LOGIN_OPTIONS.ADMIN.TITLE" | translate }}</h3>
+              <p>{{ "HOME_PAGE.LOGIN_OPTIONS.ADMIN.DESCRIPTION" | translate }}</p>
+              <button class="btn btn-primary w-full">{{ "HOME_PAGE.LOGIN_OPTIONS.ADMIN.BUTTON" | translate }}</button>
+            </div>
+          </div>
+          <div class="card shadow-md">
+            <div class="card-body">
+              <h3 class="card-title">{{ "HOME_PAGE.LOGIN_OPTIONS.REGULAR_USER.TITLE" | translate }}</h3>
+              <p>{{ "HOME_PAGE.LOGIN_OPTIONS.REGULAR_USER.DESCRIPTION" | translate }}</p>
+              <button class="btn btn-primary w-full">{{ "HOME_PAGE.LOGIN_OPTIONS.REGULAR_USER.BUTTON" | translate
+                }}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+    <div class="card bg-primary text-primary-content shadow-md">
+      <div class="card-body">
+        <h3 class="card-title">{{ "HOME_PAGE.FEATURES.CUSTOMIZABLE_TENANTS.TITLE" | translate }}</h3>
+        <p>{{ "HOME_PAGE.FEATURES.CUSTOMIZABLE_TENANTS.DESCRIPTION" | translate }}</p>
+      </div>
+    </div>
+    <div class="card bg-secondary text-secondary-content shadow-md">
+      <div class="card-body">
+        <h3 class="card-title">{{ "HOME_PAGE.FEATURES.ROLE_BASED_ACCESS.TITLE" | translate }}</h3>
+        <p>{{ "HOME_PAGE.FEATURES.ROLE_BASED_ACCESS.DESCRIPTION" | translate }}</p>
+      </div>
+    </div>
+    <div class="card bg-accent text-accent-content shadow-md">
+      <div class="card-body">
+        <h3 class="card-title">{{ "HOME_PAGE.FEATURES.PRIVACY_CONTROLS.TITLE" | translate }}</h3>
+        <p>{{ "HOME_PAGE.FEATURES.PRIVACY_CONTROLS.DESCRIPTION" | translate }}</p>
+      </div>
+    </div>
+  </section>
 </div>
-
-<ng-template #defaultHome>
-  <h1>Welcome to the Home Page</h1>
-  <p>Please select a tenant to continue.</p>
-  
-  
-</ng-template>
-<form [formGroup]="tenantForm">
-  <div>
-    <label for="tenantSelect">Select a Tenant:</label>
-    <select id="tenantSelect" formControlName="tenant">
-      <option [value]="null" disabled>Select a Tenant</option>
-      <option *ngFor="let t of tenants" [value]="t.tenantID">{{ t.name }}</option>
-    </select>
-  </div>
-</form>

@@ -11,12 +11,11 @@ import { BehaviorSubject } from 'rxjs';
 export class LoginMockService implements ILoginService {
   private currentUser: User | null = null;
   private sessionExpirationTime: number | null = null;
-  private readonly sessionDuration = 30 * 60 * 1000; // 30 minutes
+  private readonly sessionDuration = 30 * 60 * 1000;
   private readonly _userLogedin$ = new BehaviorSubject<boolean>(false);
   public readonly userLogedin$ = this._userLogedin$.asObservable();
 
   constructor(private tenantService: ITenantService) {
-    this.login("owner", "owner"); console.log("Auto login as admin")
   }
 
   async login(username: string, password: string): Promise<boolean> {

@@ -18,6 +18,63 @@
             "LOGOUT": "Logout"
         }
     },
+    "HOME_PAGE": {
+        "TITLE": "Online Scheduling App",
+        "DESCRIPTION": "A multi-tenant solution for managing appointments and calendars.",
+        "HOW_IT_WORKS": {
+            "TITLE": "How It Works",
+            "STEP_1": {
+                "STRONG": "Select a Tenant:",
+                "TEXT": "Choose your organization to get started."
+            },
+            "STEP_2": {
+                "STRONG": "Set Up Your Calendar:",
+                "TEXT": "Owners create and configure calendars."
+            },
+            "STEP_3": {
+                "STRONG": "Manage Appointments:",
+                "TEXT": "Schedule, assign, and oversee bookings with ease."
+            }
+        },
+        "SELECT_TENANT": {
+            "TITLE": "Select a Tenant",
+            "PLACEHOLDER": "Select a Tenant",
+            "OPTIONS": "Available Tenants"
+        },
+        "LOGIN_OPTIONS": {
+            "TITLE": "Login Options",
+            "DESCRIPTION": "Depending on the selected tenant, your login will determine your access level. As an Owner, Admin, or Regular User, you can perform different actions within the app. However, viewing the calendar does not require logging in, so users can explore available schedules freely after selecting the tenant.",
+            "OWNER": {
+                "TITLE": "Owner",
+                "DESCRIPTION": "Full control over tenants and calendars.",
+                "BUTTON": "Login as Owner"
+            },
+            "ADMIN": {
+                "TITLE": "Admin",
+                "DESCRIPTION": "Manage specific calendars and settings.",
+                "BUTTON": "Login as Admin"
+            },
+            "REGULAR_USER": {
+                "TITLE": "Regular User",
+                "DESCRIPTION": "Access calendars and make appointments.",
+                "BUTTON": "Login as Regular User"
+            }
+        },
+        "FEATURES": {
+            "CUSTOMIZABLE_TENANTS": {
+                "TITLE": "Customizable Tenants",
+                "DESCRIPTION": "Generate a QR code for your calendars, making it easy for students or customers to view your availability and request appointments directly."
+            },
+            "ROLE_BASED_ACCESS": {
+                "TITLE": "Role-Based Access",
+                "DESCRIPTION": "Manage users with roles like Owner, Admin, and Regular User for optimal control."
+            },
+            "PRIVACY_CONTROLS": {
+                "TITLE": "Flexible Privacy Controls",
+                "DESCRIPTION": "Define who can view, book, or manage appointments with ease."
+            }
+        }
+    },
     "CALENDAR": {
         "SELECT_CALENDAR": "Selected Calendar: {{ calendarName }}",
         "SELECT_VIEW_TYPE": "View Type: {{ viewType }}",

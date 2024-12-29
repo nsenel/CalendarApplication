@@ -17,6 +17,63 @@
             "LOGOUT": "Abmelden"
         }
     },
+    "HOME_PAGE": {
+        "TITLE": "Online-Terminplaner",
+        "DESCRIPTION": "Eine Multi-Tenant-Lösung zur Verwaltung von Terminen und Kalendern.",
+        "HOW_IT_WORKS": {
+            "TITLE": "Wie es funktioniert",
+            "STEP_1": {
+                "STRONG": "Wählen Sie einen Mandanten:",
+                "TEXT": "Wählen Sie Ihre Organisation aus, um zu beginnen."
+            },
+            "STEP_2": {
+                "STRONG": "Richten Sie Ihren Kalender ein:",
+                "TEXT": "Eigentümer erstellen und konfigurieren Kalender."
+            },
+            "STEP_3": {
+                "STRONG": "Verwalten Sie Termine:",
+                "TEXT": "Planen, zuweisen und überwachen Sie Buchungen mit Leichtigkeit."
+            }
+        },
+        "SELECT_TENANT": {
+            "TITLE": "Mandanten auswählen",
+            "PLACEHOLDER": "Wählen Sie einen Mandanten",
+            "OPTIONS": "Verfügbare Mandanten"
+        },
+        "LOGIN_OPTIONS": {
+            "TITLE": "Login-Optionen",
+            "DESCRIPTION": "Abhängig vom ausgewählten Mandanten bestimmt Ihr Login Ihren Zugriff. Als Eigentümer, Administrator oder regulärer Benutzer können Sie unterschiedliche Aktionen innerhalb der App ausführen. Das Anzeigen des Kalenders erfordert jedoch keinen Login, sodass Benutzer nach der Auswahl des Mandanten die verfügbaren Zeitpläne frei erkunden können.",
+            "OWNER": {
+                "TITLE": "Eigentümer",
+                "DESCRIPTION": "Vollständige Kontrolle über Mandanten und Kalender.",
+                "BUTTON": "Als Eigentümer einloggen"
+            },
+            "ADMIN": {
+                "TITLE": "Administrator",
+                "DESCRIPTION": "Verwalten Sie spezifische Kalender und Einstellungen.",
+                "BUTTON": "Als Administrator einloggen"
+            },
+            "REGULAR_USER": {
+                "TITLE": "Regulärer Benutzer",
+                "DESCRIPTION": "Zugriff auf Kalender und Terminvereinbarungen.",
+                "BUTTON": "Als regulärer Benutzer einloggen"
+            }
+        },
+        "FEATURES": {
+            "CUSTOMIZABLE_TENANTS": {
+                "TITLE": "Anpassbare Mandanten",
+                "DESCRIPTION": "Generieren Sie einen QR-Code für Ihre Kalender, damit Schüler oder Kunden Ihre Verfügbarkeit einfach einsehen und direkt Termine anfragen können."
+            },
+            "ROLE_BASED_ACCESS": {
+                "TITLE": "Rollenbasierter Zugriff",
+                "DESCRIPTION": "Verwalten Sie Benutzer mit Rollen wie Eigentümer, Administrator und regulärem Benutzer für optimale Kontrolle."
+            },
+            "PRIVACY_CONTROLS": {
+                "TITLE": "Flexible Datenschutzeinstellungen",
+                "DESCRIPTION": "Definieren Sie, wer Termine einsehen, buchen oder verwalten kann."
+            }
+        }
+    },
     "CALENDAR": {
         "SELECT_CALENDAR": "Ausgewählter Kalender: {{ calendarName }}",
         "SELECT_VIEW_TYPE": "Ansichtstyp: {{ viewType }}",
