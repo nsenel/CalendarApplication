@@ -88,7 +88,7 @@ export class AppointmentService implements IAppointmentService {
       .insert([{
         id: uuid,
         calendar_id: appointment.calendarID,
-        created_by: this.userService.getCurrentUser(),
+        created_by: this.userService.getCurrentUser()?.id,
         start_time: appointment.startTime,
         end_time: appointment.endTime,
         appointment_info: { "name": appointment.name, "message": appointment.message },
