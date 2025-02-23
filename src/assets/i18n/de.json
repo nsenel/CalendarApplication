@@ -58,7 +58,8 @@
                 "TITLE": "Regulärer Benutzer",
                 "DESCRIPTION": "Zugriff auf Kalender und Terminvereinbarungen.",
                 "BUTTON": "Als regulärer Benutzer einloggen"
-            }
+            },
+            "ALREADY_LOGGED": "Sie sind angemeldet"
         },
         "FEATURES": {
             "CUSTOMIZABLE_TENANTS": {

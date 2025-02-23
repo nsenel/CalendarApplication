@@ -58,7 +58,8 @@
                 "TITLE": "Regular User",
                 "DESCRIPTION": "Access calendars and make appointments.",
                 "BUTTON": "Login as Regular User"
-            }
+            },
+            "ALREADY_LOGGED": "You are logged in"
         },
         "FEATURES": {
             "CUSTOMIZABLE_TENANTS": {

@@ -5,10 +5,12 @@ import { Observable } from "rxjs";
 @Injectable()
 export abstract class ILoginService {
   abstract readonly userLogedin$: Observable<boolean>;
-  
+
+  abstract demoLogin(tenant: string, UserType: UserType): Promise<boolean>;
+
   abstract login(username: string, password: string): Promise<boolean>;
 
-  abstract isUserRegisterRestricted():boolean;
+  abstract isUserRegisterRestricted(): boolean;
 
   abstract signUpNewUser(email: string, password: string): void;
 

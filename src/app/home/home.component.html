@@ -55,22 +55,39 @@
             <div class="card-body">
               <h3 class="card-title">{{ "HOME_PAGE.LOGIN_OPTIONS.OWNER.TITLE" | translate }}</h3>
               <p>{{ "HOME_PAGE.LOGIN_OPTIONS.OWNER.DESCRIPTION" | translate }}</p>
-              <button class="btn btn-primary w-full">{{ "HOME_PAGE.LOGIN_OPTIONS.OWNER.BUTTON" | translate }}</button>
+              <button class="btn btn-primary w-full" *ngIf="isAuthenticated()" disabled>
+                {{ "HOME_PAGE.LOGIN_OPTIONS.ALREADY_LOGGED" | translate }}
+              </button>
+              <button class="btn btn-primary w-full" *ngIf="!isAuthenticated()"
+                (click)="demoLogin(UserType.PRODUCT_OWNER)" [disabled]="tenant === undefined || isAuthenticated()">{{
+                "HOME_PAGE.LOGIN_OPTIONS.OWNER.BUTTON" | translate }}</button>
             </div>
           </div>
           <div class="card shadow-md">
             <div class="card-body">
               <h3 class="card-title">{{ "HOME_PAGE.LOGIN_OPTIONS.ADMIN.TITLE" | translate }}</h3>
               <p>{{ "HOME_PAGE.LOGIN_OPTIONS.ADMIN.DESCRIPTION" | translate }}</p>
-              <button class="btn btn-primary w-full">{{ "HOME_PAGE.LOGIN_OPTIONS.ADMIN.BUTTON" | translate }}</button>
+              <button class="btn btn-primary w-full" *ngIf="isAuthenticated()" disabled>
+                {{ "HOME_PAGE.LOGIN_OPTIONS.ALREADY_LOGGED" | translate }}
+              </button>
+              <button class="btn btn-primary w-full" *ngIf="!isAuthenticated()" (click)="demoLogin(UserType.ADMIN)"
+                [disabled]="tenant === undefined || isAuthenticated()">{{ "HOME_PAGE.LOGIN_OPTIONS.ADMIN.BUTTON" |
+                translate }}</button>
             </div>
           </div>
           <div class="card shadow-md">
             <div class="card-body">
               <h3 class="card-title">{{ "HOME_PAGE.LOGIN_OPTIONS.REGULAR_USER.TITLE" | translate }}</h3>
               <p>{{ "HOME_PAGE.LOGIN_OPTIONS.REGULAR_USER.DESCRIPTION" | translate }}</p>
-              <button class="btn btn-primary w-full">{{ "HOME_PAGE.LOGIN_OPTIONS.REGULAR_USER.BUTTON" | translate
-                }}</button>
+              <button class="btn btn-primary w-full" *ngIf="isAuthenticated()" disabled>
+                {{ "HOME_PAGE.LOGIN_OPTIONS.ALREADY_LOGGED" | translate }}
+              </button>
+
+              <!-- If user is NOT authenticated, show this button -->
+              <button class="btn btn-primary w-full" *ngIf="!isAuthenticated()" (click)="demoLogin(UserType.REGULAR)"
+                [disabled]="tenant === undefined">
+                {{ "HOME_PAGE.LOGIN_OPTIONS.REGULAR_USER.BUTTON" | translate }}
+              </button>
             </div>
           </div>
         </div>

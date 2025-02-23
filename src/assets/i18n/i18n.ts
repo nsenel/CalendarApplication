@@ -59,6 +59,7 @@ export interface Translations {
           DESCRIPTION: string;
           BUTTON: string;
         };
+        ALREADY_LOGGED: string;
       };
       FEATURES: {
         CUSTOMIZABLE_TENANTS: {

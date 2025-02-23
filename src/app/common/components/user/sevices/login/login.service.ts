@@ -5,6 +5,7 @@ import { supabase } from 'src/app/common/superbase/base-client';
 import { ITenantService } from 'src/app/common/sevices/tenant-service/tenant.service.interface';
 import { BehaviorSubject } from 'rxjs';
 import { TenantDetails } from 'src/app/common/models/tenant-model/tenant-details.model';
+import { demoUserCredentials } from './mock.data';
 
 @Injectable({
   providedIn: 'root'
@@ -29,31 +30,44 @@ export class LoginService implements ILoginService {
     return details ? details.restrictedUserRegister : false
   }
 
-  public async signUpNewUser(userEmail:string, password:string) {
+  isAuthenticated(): boolean {
+    return this.currentUser !== null;
+  }
+
+  getUserRole(): UserType | null {
+    if (this.currentUser && this.currentUser.role) {
+      return this.currentUser.role
+    }
+    return null;
+  }
+
+  getCurrentUser(): User | null {
+    return this.currentUser;
+  }
+
+  public demoLogin(tenant: string, userType: UserType): Promise<boolean> {
+    const user = demoUserCredentials[tenant]?.[userType];
+    if (!user) {
+      console.error('No demo user found for this tenant and user type');
+      return Promise.resolve(false);
+    }
+
+    return this.login(user.email, user.password);
+  }
+
+  public async signUpNewUser(userEmail: string, password: string) {
     const { data, error } = await supabase.auth.signUp({
       email: userEmail,
       password: password
     });
     if (error) {
-        console.error('Sign-up error:', error.message, error);
+      console.error('Sign-up error:', error.message, error);
     } else {
-        console.log('Sign-up successful:', data);
-    }
-}
-
-  // Initialize the current user from Supabase session
-  private async initializeUser(): Promise<void> {
-    const { data, error } = await supabase.auth.getUser();
-    if (data.user) {
-      this.currentUser = User.fromSupabaseUser(data.user);
-      this.getUserDetails();
-    }
-    if (error) {
-      console.log("Login error:", error)
+      console.log('Sign-up successful:', data);
     }
   }
 
-  async login(email: string, password: string): Promise<boolean> {
+  public async login(email: string, password: string): Promise<boolean> {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -68,8 +82,7 @@ export class LoginService implements ILoginService {
     return this.getUserDetails();
   }
 
-  // Supabase logout
-  async logout(): Promise<void> {
+  public async logout(): Promise<void> {
     const { error } = await supabase.auth.signOut();
 
     if (error) {
@@ -80,35 +93,30 @@ export class LoginService implements ILoginService {
     }
   }
 
-  private async getUserDetails(): Promise<boolean>
-  {
+  // Initialize the current user from Supabase session
+  private async initializeUser(): Promise<void> {
+    const { data, error } = await supabase.auth.getUser();
+    if (data.user) {
+      this.currentUser = User.fromSupabaseUser(data.user);
+      this.getUserDetails();
+    }
+    if (error) {
+      console.log("Login error:", error)
+    }
+  }
+
+  private async getUserDetails(): Promise<boolean> {
     if (this.currentUser) {
       const { data, error } = await supabase
         .from('user_info')
         .select('*')
         .eq('user_id', this.currentUser.id).single()
-      if(!error)
-      {
+      if (!error) {
         User.fromSupabaseUserInfo(this.currentUser, data);
         this.tenantService.setTenant(this.currentUser.tenantID);
         return Promise.resolve(true);
       }
     }
     return Promise.resolve(false);
-  }
-
-  isAuthenticated(): boolean {
-    return this.currentUser !== null;
-  }
-
-  getUserRole(): UserType | null {
-    if (this.currentUser && this.currentUser.role) {
-      return this.currentUser.role
-    }
-    return null;
-  }
-
-  getCurrentUser(): User | null {
-    return this.currentUser;
   }
 }

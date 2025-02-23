@@ -18,6 +18,15 @@ export class LoginMockService implements ILoginService {
   constructor(private tenantService: ITenantService) {
   }
 
+  public demoLogin(tenant: string, userType: UserType): Promise<boolean> {
+
+    const user = mockUsers.find(u => u.tenantID === tenant && u.role === userType);
+    if (user) {
+      return this.login(user.username, getPassword(user.username) ?? "")
+    }
+    return Promise.resolve(false);
+  }
+
   async login(username: string, password: string): Promise<boolean> {
     await this.simulateDelay();
 

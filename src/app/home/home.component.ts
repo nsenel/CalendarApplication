@@ -4,6 +4,8 @@ import { Subject, takeUntil } from 'rxjs';
 import { ITenantService } from '../common/sevices/tenant-service/tenant.service.interface';
 import { TenantDetails } from '../common/models/tenant-model/tenant-details.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { UserType } from '../common/components/user/models/user/user.model';
+import { ILoginService } from '../common/components/user/sevices/login/login.service.interface';
 
 @Component({
   selector: 'app-home',
@@ -11,6 +13,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  UserType = UserType;
   tenantForm: FormGroup;
   tenant: string | undefined = undefined;
   tenants: TenantDetails[] = [];
@@ -19,7 +22,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private tenantService: ITenantService
+    private tenantService: ITenantService,
+    private userService: ILoginService,
   ) {
     this.tenantForm = this.fb.group({
       tenant: [null]
@@ -57,8 +61,16 @@ export class HomeComponent implements OnInit {
       });
   }
 
+  demoLogin(userType: UserType) {
+    this.userService.demoLogin(this.tenant ?? "", userType);
+  }
+
   onTenantChange(selectedTenantId: string): void {
     this.tenantService.setTenant(selectedTenantId);
+  }
+
+  isAuthenticated(): boolean {
+    return this.userService.isAuthenticated();
   }
 
   ngOnDestroy(): void {
