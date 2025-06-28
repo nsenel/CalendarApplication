@@ -1,38 +1,3 @@
-<!-- <button class="btn">Button</button>
-<button class="btn btn-secondary">Secondary</button>
-<div class="container mx-auto grid grid-cols-1 gap-1">
-    <div 
-    class="tile bg-primary text-primary-content p-4 rounded transition duration-300 ease-in-out hover:bg-accent" 
-    [class.bg-secondary]="isSelected(number)"
-    *ngFor="let number of numberList"
-    (mousedown)="onMouseDown(number)"
-    (mouseup)="onMouseUp(number)">
-      <h1 class="tile-marker select-none text-2xl">{{number}}</h1>
-    </div>
-</div> -->
-
-<!-- <div class="container mx-auto grid grid-cols-1 gap-1">
-    <div
-    class="tile bg-primary text-primary-content p-4 rounded transition duration-300 ease-in-out hover:bg-accent h-64"
-    *ngFor="let startTime of clockList">
-      <h1 class="tile-marker select-none text-2xl" (click)="openModal(startTime)" on-mouseover="consoleTime()">{{startTime}}</h1>
-    </div>
-</div> -->
-
-<!-- <div class="container mx-auto grid grid-cols-1 gap-1">
-  <ng-container *ngFor="let startTime of clockList">
-    <div class="tile bg-primary text-primary-content p-1 rounded transition duration-300 ease-in-out hover:bg-accent"
-      [ngStyle]="{'height.px': tileHeight}" (click)="openModal(startTime)" on-mouseover="consoleTime()">
-      <ng-container *ngFor="let appointment of appointments">
-        <h1 class="bg-secondary select-none text-2xl" (click)="openModal1($event, startTime)">{{appointment.name}}</h1>
-      </ng-container>
-    </div>
-  </ng-container>
-</div> -->
-
-<!-- <div class="container mx-auto grid grid-cols-1 gap-0"> -->
-
-
 <ng-container *ngFor="let visBlock of visBlocksWithAppointments">
   <div
     class="tile bg-base-100 text-primary-content transition duration-300  relative border-b border-primary z-5"
@@ -47,10 +12,15 @@
     <ng-container *ngIf="visBlock.appointments">
       <ng-container *ngFor="let appointment of visBlock.appointments; index as i">
         <div *ngIf="appointment.visBlockID === visBlock.id"
-          class="absolute w-full opacity-90 rounded-lg overflow-hidden" [ngStyle]="getAppointmentStyles(visBlock, i)">
+          class="absolute opacity-90 rounded-lg overflow-hidden" 
+          style="padding: 1px;"
+          [style.width.%]="appointment.width"
+          [style.left.%]="appointment.left"
+          [style.z-index]="6"
+          [style.height.px]="appointment.viewHeight"
+          [style.margin-top.px]="appointment.paddingTopBorder">
           <!-- Appointment Name and Edit -->
-          <h1 class="bg-secondary select-none px-2 py-1 flex items-center justify-between rounded-lg"
-            [ngStyle]="{ 'height.px': appointment?.viewHeight ?? tileHeight }"
+          <h1 class="bg-secondary select-none px-2 py-1 flex items-center justify-between rounded-lg h-full"
             [ngClass]="{ 'cursor-pointer ease-in-out hover:bg-accent': appointment.name !== '**' }"
             (click)="appointment.name !== '**' && editAppointment($event, appointment)">
             {{ appointment.name }}
@@ -71,23 +41,6 @@
     </ng-container>
   </div>
 </ng-container>
-<!-- </div> -->
-<!-- </div> -->
-
-<!-- <div class="container mx-auto grid grid-cols-1 gap-1">
-  <ng-container *ngFor="let startTime of clockList">
-    <div class="container mx-auto grid grid-cols-1 gap-0 relative">
-      <ng-container *ngFor="let _ of test_array">
-        <div class="tile bg-primary text-primary-content p-1 rounded transition duration-300 ease-in-out hover:bg-accent relative" 
-             [ngStyle]="{'height.px': tileHeight / 4}" (mouseover)="consoleTime()">
-        </div>
-      </ng-container>
-      <div class="absolute inset-0 flex items-center justify-center">
-        sometext
-      </div>
-    </div>
-  </ng-container>
-</div> -->
 
 <!-- Modal -->
 <div *ngIf="formViewOpen" class="fixed inset-0 flex items-center justify-center z-50">
