@@ -61,6 +61,16 @@
             <input type="checkbox" class="checkbox checkbox-primary mr-2" formControlName="onlyRegisterUserAccess" />
           </div>
         </div>
+        <div class="relative flex flex-col">
+          <label class="label">
+            <div class="tooltip" [attr.data-tip]="'SETTINGS.CALENDAR.SHOW_ONLY_WORKING_HOURS_DATA_TIP' | translate">
+              <span class="label-text">{{ "SETTINGS.CALENDAR.SHOW_ONLY_WORKING_HOURS" | translate }}</span>
+            </div>
+          </label>
+          <div class="flex grow items-center">
+            <input type="checkbox" class="checkbox checkbox-primary mr-2" formControlName="showOnlyWorkingHours" />
+          </div>
+        </div>
       </div>
     </div>
     <div class="form-control mb-4" formGroupName="workingHours">

@@ -29,7 +29,8 @@ export class OwnerSettingsService implements IOwnerSettingsService {
       lunchEnd: '11:00',
       workingDays: [true, false, true, true, true, false, false],
       calendarOwnerID: userID,
-      tenantID: this.tenantService.getTenant()
+      tenantID: this.tenantService.getTenant(),
+      showOnlyWorkingHours: false
     }
     return this.insertNewSettings(newCalendar);
   }

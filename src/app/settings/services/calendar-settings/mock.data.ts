@@ -14,7 +14,8 @@ export const mockCalendarSettings: CalendarSetting[] = [{
     lunchEnd: '11:00',
     workingDays: [true, false, true, true, true, false, false],
     calendarOwnerID: "0",
-    tenantID:"0"
+    tenantID:"0",
+    showOnlyWorkingHours: false
 },
 {
     id: '1',
@@ -28,5 +29,6 @@ export const mockCalendarSettings: CalendarSetting[] = [{
     lunchEnd: '11:00',
     workingDays: [true, false, true, true, true, false, false],
     calendarOwnerID: "1",
-    tenantID:"0"
+    tenantID:"0",
+    showOnlyWorkingHours: true
 }];

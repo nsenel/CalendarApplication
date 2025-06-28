@@ -16,7 +16,7 @@ import { CalendarAction, CalendarActionPayload } from '../../models/calendar-act
 export class CalendarSettingsComponent implements OnInit {
   @Input() calendarOwnerAction: CalendarActionPayload | undefined;
   @Output() onCalendarAction = new EventEmitter<CalendarActionPayload>();
-  currentUserType: UserType = UserType.VISITOR; // do we need this if yes why ?
+  currentUserType: UserType = UserType.VISITOR;
   avaibleCalenders: CalendarSetting[] = [];
   calendarSettings: CalendarSetting | undefined;
   calendarSettingsForm: FormGroup;
@@ -31,11 +31,11 @@ export class CalendarSettingsComponent implements OnInit {
     { name: 'Sunday', selected: false }
   ];
 
-
   constructor(private fb: FormBuilder, private userService: ILoginService, private calendarSettingsService: ICalendarSettingsService, private notificationService: NotificationService) {
     this.calendarSettingsForm = this.fb.group({
       title: [{ value: undefined, disabled: true }, Validators.required],
       onlyRegisterUserAccess: [{ value: true, disabled: true }, Validators.required],
+      showOnlyWorkingHours: [{ value: false, disabled: true }, Validators.required],
       workingHours: this.fb.group({
         start: [{ value: '08:00', disabled: true }, Validators.required],
         end: [{ value: '20:00', disabled: true }, Validators.required],
@@ -53,10 +53,9 @@ export class CalendarSettingsComponent implements OnInit {
   ngOnChanges() {
     if (this.calendarOwnerAction) {
       if (this.calendarOwnerAction.action === CalendarAction.ADD || this.calendarOwnerAction.action === CalendarAction.OWNER_CHANGE) {
-        this.getCalendarSettings()
-      }
-      else if (this.calendarOwnerAction.action === CalendarAction.DELETE) {
-        this.avaibleCalenders = this.avaibleCalenders.filter((calendarSetting) => calendarSetting.id !== this.calendarOwnerAction?.calendarID)
+        this.getCalendarSettings();
+      } else if (this.calendarOwnerAction.action === CalendarAction.DELETE) {
+        this.avaibleCalenders = this.avaibleCalenders.filter((calendarSetting) => calendarSetting.id !== this.calendarOwnerAction?.calendarID);
       }
     }
   }
@@ -67,11 +66,11 @@ export class CalendarSettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUserType = this.userService.getUserRole() ?? UserType.VISITOR;
-    this.getCalendarSettings()
+    this.getCalendarSettings();
   }
 
   getCalendarSettings() {
-    const getCalendarFuction: Promise<CalendarSetting[]> = this.currentUserType > UserType.ADMIN ? this.calendarSettingsService.getCalendarsSettings() : this.calendarSettingsService.getOwnedCalendarSetting()
+    const getCalendarFuction: Promise<CalendarSetting[]> = this.currentUserType > UserType.ADMIN ? this.calendarSettingsService.getCalendarsSettings() : this.calendarSettingsService.getOwnedCalendarSetting();
     getCalendarFuction.then((calendars) => {
       this.avaibleCalenders = calendars;
       if (this.avaibleCalenders.length > 0) {
@@ -93,19 +92,18 @@ export class CalendarSettingsComponent implements OnInit {
     if (calendarSettings) {
       this.weekDays.forEach((day, index) => {
         if (calendarSettings.workingDays) {
-          day.selected = calendarSettings.workingDays.at(index) ?? false;
+          day.selected = calendarSettings.workingDays[index] ?? false;
         }
       });
       this.calendarSettingsForm.patchValue({
         title: calendarSettings.title,
         id: calendarSettings.id,
-        accessLevel: calendarSettings.accessLevel >= UserType.REGULAR ? true:false,
+        accessLevel: calendarSettings.accessLevel >= UserType.REGULAR ? true : false,
+        showOnlyWorkingHours: calendarSettings.showOnlyWorkingHours,
         workingHours: calendarSettings,
         days: this.weekDays.map(day => day.selected)
       });
-
     }
-
   }
 
   get days(): FormArray {
@@ -141,7 +139,8 @@ export class CalendarSettingsComponent implements OnInit {
         lunchEnd: formValue.workingHours.lunchEnd,
         workingDays: formValue.days,
         calendarOwnerID: this.calendarSettings.calendarOwnerID,
-        tenantID: this.calendarSettings.tenantID
+        tenantID: this.calendarSettings.tenantID,
+        showOnlyWorkingHours: formValue.showOnlyWorkingHours
       };
       this.calendarSettingsService.updateCalendarSettings(this.calendarSettings.id, newCalendarSettings)
         .then((updatedSettings: CalendarSetting) => {

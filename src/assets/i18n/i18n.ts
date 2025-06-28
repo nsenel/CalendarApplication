@@ -127,6 +127,8 @@ export interface Translations {
         CALENDAR_TITLE_PLACEHOLDER: string;
         APPOINTMENT_REGISTERED: string;
         APPOINTMENT_REGISTERED_DATA_TIP: string;
+        SHOW_ONLY_WORKING_HOURS: string;
+        SHOW_ONLY_WORKING_HOURS_DATA_TIP: string;
         START_TIME: string;
         END_TIME: string;
         TIME_BETWEEN: string;

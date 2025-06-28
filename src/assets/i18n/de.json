@@ -127,6 +127,8 @@
             "CALENDAR_TITLE_PLACEHOLDER": "Geben Sie den Kalendertitel ein",
             "APPOINTMENT_REGISTERED": "Termine nur für registrierte Benutzer verfügbar",
             "APPOINTMENT_REGISTERED_DATA_TIP": "Wenn deaktiviert, kann jeder einen Termin anfragen",
+            "SHOW_ONLY_WORKING_HOURS": "Nur Arbeitszeiten anzeigen",
+            "SHOW_ONLY_WORKING_HOURS_DATA_TIP": "Wenn aktiviert, werden im Kalender nur die Arbeitszeiten angezeigt",
             "START_TIME": "Buchbare Zeit beginnt um",
             "END_TIME": "Buchbare Zeit endet um",
             "TIME_BETWEEN": "Zeit zwischen Kalenderslots (in Minuten)",

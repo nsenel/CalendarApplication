@@ -8,7 +8,6 @@ import { ILoginService } from '../common/components/user/sevices/login/login.ser
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
-
 type WeekDay = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
 
 @Component({
@@ -17,7 +16,7 @@ type WeekDay = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Sat
   styleUrls: ['./calendar.component.scss'],
 })
 export class CalendarComponent implements OnInit, OnDestroy {
-  avaibleCalenders: CalendarSetting[] = []
+  avaibleCalenders: CalendarSetting[] = [];
   currentViewType: CalandarViewType = CalandarViewType.WorkDays;
   selectedDate = DateTime.local();
 
@@ -41,17 +40,15 @@ export class CalendarComponent implements OnInit, OnDestroy {
   };
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
 
-  constructor(private userService: ILoginService, private calendarSettingsService: ICalendarSettingsService, public translateService: TranslateService) {
-
-  }
+  constructor(private userService: ILoginService, private calendarSettingsService: ICalendarSettingsService, public translateService: TranslateService) { }
 
   ngOnInit() {
     this.currentLocale = this.translateService.currentLang;
     this.languageSubscription = this.translateService.onLangChange.subscribe((event) => {
       this.currentLocale = event.lang;
     });
-    this.loginSubscription = this.userService.userLogedin$.subscribe((userLogedIn) => { if (userLogedIn) { this.prepareCalendar() } })
-    this.prepareCalendar()
+    this.loginSubscription = this.userService.userLogedin$.subscribe((userLogedIn) => { if (userLogedIn) { this.prepareCalendar() } });
+    this.prepareCalendar();
   }
 
   prepareCalendar() {
@@ -61,25 +58,17 @@ export class CalendarComponent implements OnInit, OnDestroy {
         this.selectCalendar(this.avaibleCalenders[0].id);
         this.scrollToMiddle();
       }
-    }).catch((error) => { console.error('Failed to get calendars', error); })
+    }).catch((error) => { console.error('Failed to get calendars', error); });
   }
 
   scrollToMiddle() {
-    const container = this.scrollContainer.nativeElement;
-    const scrollHeight = container.scrollHeight;
-    const containerHeight = container.clientHeight;
-    // Scroll to the middle of the container
-    container.scrollTop = (scrollHeight - containerHeight) / 2;
+    if (this.scrollContainer) {
+      const container = this.scrollContainer.nativeElement;
+      const scrollHeight = container.scrollHeight;
+      const containerHeight = container.clientHeight;
+      container.scrollTop = (scrollHeight - containerHeight) / 2;
+    }
   }
-
-
-
-  // scrollToCurrentTime() {
-  //   const currentTimeElement = document.getElementById('current-time-block');
-  //   if (currentTimeElement) {
-  //     currentTimeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  //   }
-  // }
 
   selectCalendar(calendarID: string) {
     this.calendarSetting = this.avaibleCalenders.find(calendar => calendar.id === calendarID);
@@ -107,25 +96,21 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.days = [];
     if (this.currentViewType === CalandarViewType.Day) {
       this.days.push(this.selectedDate);
-    }
-    else if (this.currentViewType === CalandarViewType.WorkDays) {
+    } else if (this.currentViewType === CalandarViewType.WorkDays) {
       const startOfWeek = this.selectedDate.startOf('week');
       for (let i = 0; i < 5; i++) {
         this.days.push(startOfWeek.plus({ days: i }));
       }
-    }
-    else if (this.currentViewType === CalandarViewType.Week) {
+    } else if (this.currentViewType === CalandarViewType.Week) {
       const startOfWeek = this.selectedDate.startOf('week');
       for (let i = 0; i < 7; i++) {
         this.days.push(startOfWeek.plus({ days: i }));
       }
-    }
-    else {
+    } else {
       const startOfMonth = this.selectedDate.startOf('month');
       const endOfMonth = this.selectedDate.endOf('month');
-      for (let i = startOfMonth; i < endOfMonth;) {
+      for (let i = startOfMonth; i <= endOfMonth; i = i.plus({ days: 1 })) {
         this.days.push(i);
-        i = i.plus({ days: 1 });
       }
     }
   }
@@ -137,122 +122,103 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   generateBlocks(): void {
     this.visBlocks = [];
-    if (this.calendarSetting) {
-      const [ofHoursStartsHour, ofHoursStartsMin] = this.calendarSetting.end.split(':').map(Number);
-      const [ofHoursEndsHour, ofHoursEndsMin] = this.calendarSetting.start.split(':').map(Number);
-      const timeIntervalDay = Duration.fromObject({ minute: Number(this.calendarSetting.timeIntervalBetweenSlots.split(':').map(Number)[1]) })
-      const firstBlock = new VisBlock(
-        DateTime.fromObject({
-          hour: ofHoursEndsHour,
-          minute: ofHoursEndsMin,
-        }),
-        Duration.fromObject({
-          hours: ofHoursEndsHour,
-          minute: ofHoursEndsMin,
-        }),
-        this.tileHeight,
-        true
-      );
-      const [firstHalf, secondHalf] = firstBlock.splitVisBlock()
-      this.visBlocks.push(firstHalf, ...secondHalf.splitIntoIntervals(timeIntervalDay));
-      if (this.calendarSetting.applyLunch) {
-        const [lunchStartsHour, lunchStartsMin] = this.calendarSetting.lunchEnd.split(':').map(Number);
-        const [lunchEndsHour, lunchEndsMin] = this.calendarSetting.lunchStart.split(':').map(Number);
-        const middleBlockUntilLunch = new VisBlock(
-          DateTime.fromObject({
-            hour: lunchEndsHour,
-            minute: lunchEndsMin,
-          }),
-          Duration.fromObject({
-            hours: lunchEndsHour - ofHoursEndsHour,
-            minute: lunchEndsMin - ofHoursEndsMin,
-          }),
-          this.tileHeight
-        );
-        this.visBlocks.push(
-          ...middleBlockUntilLunch.splitIntoIntervals(timeIntervalDay)
-        );
-        const middleBlockLunch = new VisBlock(
-          DateTime.fromObject({
-            hour: lunchStartsHour,
-            minute: lunchStartsMin,
-          }),
-          Duration.fromObject({
-            hours: lunchStartsHour - lunchEndsHour,
-            minute: lunchStartsMin - lunchEndsMin,
-          }),
-          this.tileHeight,
-          true
-        );
-        this.visBlocks.push(
-          middleBlockLunch
-        );
-        const middleBlockAfterLunch = new VisBlock(
-          DateTime.fromObject({
-            hour: ofHoursStartsHour,
-            minute: ofHoursStartsMin,
-          }),
-          Duration.fromObject({
-            hours: ofHoursStartsHour - lunchStartsHour,
-            minute: ofHoursStartsMin - lunchStartsMin,
-          }),
-          this.tileHeight
-        );
-        this.visBlocks.push(
-          ...middleBlockAfterLunch.splitIntoIntervals(timeIntervalDay)
-        );
+    if (!this.calendarSetting) return;
+
+    const timeInterval = Duration.fromObject({ minutes: Number(this.calendarSetting.timeIntervalBetweenSlots.split(':')[1]) });
+
+    if (this.calendarSetting.showOnlyWorkingHours) {
+      this.generateWorkingHoursBlocks(timeInterval);
+    } else {
+      this.generateFullDayBlocks(timeInterval);
+    }
+  }
+
+  private generateWorkingHoursBlocks(timeInterval: Duration): void {
+    if (!this.calendarSetting) return;
+
+    const [startHour, startMinute] = this.calendarSetting.start.split(':').map(Number);
+    const [endHour, endMinute] = this.calendarSetting.end.split(':').map(Number);
+
+    const workStartTime = this.selectedDate.set({ hour: startHour, minute: startMinute });
+    const workEndTime = this.selectedDate.set({ hour: endHour, minute: endMinute });
+
+    if (this.calendarSetting.applyLunch) {
+      const [lunchStartHour, lunchStartMinute] = this.calendarSetting.lunchStart.split(':').map(Number);
+      const [lunchEndHour, lunchEndMinute] = this.calendarSetting.lunchEnd.split(':').map(Number);
+      const lunchStartTime = this.selectedDate.set({ hour: lunchStartHour, minute: lunchStartMinute });
+      const lunchEndTime = this.selectedDate.set({ hour: lunchEndHour, minute: lunchEndMinute });
+
+      const morningDuration = lunchStartTime.diff(workStartTime);
+      if (morningDuration.as('minutes') > 0) {
+        const morningBlock = new VisBlock(lunchStartTime, morningDuration, this.tileHeight);
+        this.visBlocks.push(...morningBlock.splitIntoIntervals(timeInterval));
       }
-      else {
-        const middleBlock = new VisBlock(
-          DateTime.fromObject({
-            hour: ofHoursStartsHour,
-            minute: ofHoursStartsMin,
-          }),
-          Duration.fromObject({
-            hours: ofHoursStartsHour - ofHoursEndsHour,
-            minute: ofHoursStartsMin - ofHoursEndsMin,
-          }),
-          this.tileHeight
-        );
-        this.visBlocks.push(
-          ...middleBlock.splitIntoIntervals(timeIntervalDay)
-        );
+
+      const lunchDuration = lunchEndTime.diff(lunchStartTime);
+      if (lunchDuration.as('minutes') > 0) {
+        const lunchBlock = new VisBlock(lunchEndTime, lunchDuration, this.tileHeight, true);
+        this.visBlocks.push(lunchBlock);
       }
-      let lastBlock = new VisBlock(
-        DateTime.fromObject({ hour: 0 }),
-        Duration.fromObject({
-          hours: 24 - ofHoursStartsHour - 1,
-          minute: 60 - ofHoursStartsMin,
-        }),
-        this.tileHeight,
-        true
-      );
-      const [endFirstHalf, endSecondHalf] = lastBlock.splitVisBlock()
-      this.visBlocks.push(...endFirstHalf.splitIntoIntervals(timeIntervalDay), endSecondHalf);
+      
+      const afternoonDuration = workEndTime.diff(lunchEndTime);
+      if (afternoonDuration.as('minutes') > 0) {
+        const afternoonBlock = new VisBlock(workEndTime, afternoonDuration, this.tileHeight);
+        this.visBlocks.push(...afternoonBlock.splitIntoIntervals(timeInterval));
+      }
+
+    } else {
+      const workingHoursDuration = workEndTime.diff(workStartTime);
+      if (workingHoursDuration.as('minutes') > 0) {
+        const workingHoursBlock = new VisBlock(workEndTime, workingHoursDuration, this.tileHeight);
+        this.visBlocks.push(...workingHoursBlock.splitIntoIntervals(timeInterval));
+      }
+    }
+  }
+
+  private generateFullDayBlocks(timeInterval: Duration): void {
+    if (!this.calendarSetting) return;
+
+    const [startHour, startMinute] = this.calendarSetting.start.split(':').map(Number);
+    const [endHour, endMinute] = this.calendarSetting.end.split(':').map(Number);
+
+    const dayStart = this.selectedDate.startOf('day');
+    const dayEnd = this.selectedDate.endOf('day');
+    
+    const workStartTime = this.selectedDate.set({ hour: startHour, minute: startMinute });
+    const workEndTime = this.selectedDate.set({ hour: endHour, minute: endMinute });
+
+    const beforeWorkDuration = workStartTime.diff(dayStart);
+    if(beforeWorkDuration.as('minutes') > 0) {
+        const beforeWorkBlock = new VisBlock(workStartTime, beforeWorkDuration, this.tileHeight, true);
+        const [firstHalf, secondHalf] = beforeWorkBlock.splitVisBlock();
+        this.visBlocks.push(firstHalf, ...secondHalf.splitIntoIntervals(timeInterval));
+    }
+
+    this.generateWorkingHoursBlocks(timeInterval);
+
+    const afterWorkDuration = dayEnd.diff(workEndTime);
+    if(afterWorkDuration.as('minutes') > 0) {
+        const afterWorkBlock = new VisBlock(dayEnd, afterWorkDuration, this.tileHeight, true);
+        const [endFirstHalf, endSecondHalf] = afterWorkBlock.splitVisBlock();
+        this.visBlocks.push(...endFirstHalf.splitIntoIntervals(timeInterval), endSecondHalf);
     }
   }
 
   getNumberOfColumns(): number {
-    return this.days.length * 2 + 1
+    return this.days.length * 2 + 1;
   }
 
-  // Calculate font size based on tile height
   getFontSize(visBlock: VisBlock): string {
     let fontSize: number = 24;
     if (this.tileHeight < 24) {
       fontSize = (this.tileHeight * 0.75 * 24) / this.tileHeight;
     }
-    return visBlock.startTime ? `${fontSize / 2}px` : `${fontSize}px`; // Adjust the divisor based on your preference
+    return visBlock.startTime ? `${fontSize / 2}px` : `${fontSize}px`;
   }
 
   isDateDisable(day: DateTime): boolean {
     const dayName = day.toFormat('cccc') as WeekDay;
     return !this.weekDays[dayName];
-  }
-
-  isCurrentTimeBlock(visBlock: VisBlock): boolean {
-    const now = DateTime.local().plus({ hour: 3 });
-    return now.toFormat('HH:mm:ss') >= visBlock.startTime.toFormat('HH:mm:ss') && now.toFormat('HH:mm:ss') < visBlock.endTime.toFormat('HH:mm:ss');
   }
 
   viewTypeTranslator(value: CalandarViewType): string {

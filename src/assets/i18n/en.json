@@ -127,6 +127,8 @@
             "CALENDAR_TITLE_PLACEHOLDER": "Enter calendar title",
             "APPOINTMENT_REGISTERED": "Appointment only available for registered users",
             "APPOINTMENT_REGISTERED_DATA_TIP": "When disabled, anyone can crate appointment request",
+            "SHOW_ONLY_WORKING_HOURS": "Show only working hours",
+            "SHOW_ONLY_WORKING_HOURS_DATA_TIP": "If enabled, only working hours will be displayed in the calendar",
             "START_TIME": "Bookable time starts at",
             "END_TIME": "Bookable time ends at",
             "TIME_BETWEEN": "Time in between calendar slots(in minutes)",

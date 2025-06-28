@@ -14,6 +14,7 @@ export interface CalendarSetting {
   workingDays: boolean[]
   calendarOwnerID: string
   tenantID?:string
+  showOnlyWorkingHours: boolean
 }
 
 @Injectable({
@@ -33,7 +34,8 @@ export class CalendarMappingService {
       lunchStart: dbResult.lunch_start,
       lunchEnd: dbResult.lunch_end,
       workingDays: dbResult.working_days,
-      calendarOwnerID: dbResult.calendar_owner
+      calendarOwnerID: dbResult.calendar_owner,
+      showOnlyWorkingHours: dbResult.show_only_working_hours
     };
   }
 
@@ -50,7 +52,8 @@ export class CalendarMappingService {
       lunch_end: calendarSetting.lunchEnd,
       working_days: calendarSetting.workingDays,
       calendar_owner: calendarSetting.calendarOwnerID,
-      tenant_id:calendarSetting.tenantID
+      tenant_id:calendarSetting.tenantID,
+      show_only_working_hours: calendarSetting.showOnlyWorkingHours
     };
   }
 }
