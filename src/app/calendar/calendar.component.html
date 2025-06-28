@@ -53,12 +53,12 @@
             <div class="relative border-b border-dashed border-primary" [ngStyle]="{ 'height.px': tileHeight }">
               <!-- <div class="relative border-b border-dashed border-primary" [ngStyle]="{ 'height.px': tileHeight }" [id]="isCurrentTimeBlock(visBlock) ? 'current-time-block' : null"></div> -->
               <ng-container *ngIf="visBlock.startTime">
-                <h1 class="tile-marker select-none text-2xl absolute top-0 left-0"
+                <h1 class="tile-marker select-none absolute top-0 left-0"
                   [ngStyle]="{ 'font-size': getFontSize(visBlock) }">
                   {{ visBlock.startTime.toFormat("HH:mm") }}
                 </h1>
               </ng-container>
-              <h1 class="tile-marker select-none text-2xl absolute bottom-0 left-0"
+              <h1 class="tile-marker select-none absolute bottom-0 left-0"
                 [ngStyle]="{ 'font-size': getFontSize(visBlock) }">
                 {{ visBlock.endTime.toFormat("HH:mm") }}
               </h1>

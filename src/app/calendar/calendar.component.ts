@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DateTime, Duration } from 'luxon';
 import { VisBlock } from './models/vis-block-model/vis-block.model';
 import { CalandarViewType } from '../common/models/calendar-view-model/calendar-view.model';
@@ -48,7 +48,22 @@ export class CalendarComponent implements OnInit, OnDestroy {
       this.currentLocale = event.lang;
     });
     this.loginSubscription = this.userService.userLogedin$.subscribe((userLogedIn) => { if (userLogedIn) { this.prepareCalendar() } });
+    this.setTileHeight(); // Set initial tile height
     this.prepareCalendar();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.setTileHeight();
+  }
+
+  setTileHeight() {
+    if (window.innerWidth < 768) {
+      this.tileHeight = 32; // Smaller height for mobile
+    } else {
+      this.tileHeight = 64;
+    }
+    this.generateBlocks();
   }
 
   prepareCalendar() {

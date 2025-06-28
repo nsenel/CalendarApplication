@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { DateTime, Duration } from 'luxon';
 import { Appointment } from 'src/app/calendar/models/appointment-model/appointment.model';
 import { IAppointmentService } from '../../services/appointment-service/appointment.service.interface';
@@ -13,7 +13,7 @@ import { CalendarLayoutService } from '../../services/calendar-layout/calendar-l
   templateUrl: './day.component.html',
   styleUrls: ['./day.component.scss']
 })
-export class DayComponent implements OnInit {
+export class DayComponent implements OnInit, OnChanges {
   @Input() day: DateTime = DateTime.now().startOf('day');
   @Input() calendarID: string | undefined = "";
   @Input() visBlocks: Array<VisBlock> = [];
@@ -32,6 +32,12 @@ export class DayComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchAndGenerateLayout();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['tileHeight'] || changes['visBlocks']) {
+      this.fetchAndGenerateLayout();
+    }
   }
 
   private fetchAndGenerateLayout(): void {
